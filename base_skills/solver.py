@@ -12,15 +12,21 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 # ============================================================
 # 配置
 # ============================================================
-VERSION = 2                    # 当前版本号
+VERSION = 3                    # 当前版本号
 HOURS = float(sys.argv[1]) if len(sys.argv) > 1 else 12.0
+
+# 基建配置
+TRADING_POSTS = 2
+POWER_PLANTS = 3
+DORMS = 4
+DORM_LEVEL = 5       # 每间宿舍等级(满级5000氛围=5级)
+TRAINING_LEVEL = 3   # 训练室等级
 
 # 各版本已实现的技能类别
 CATEGORIES = {
     1: {'纯数值'},
     2: {'纯数值', '渐进加成'},
-    # 3: {'纯数值', '渐进加成', '设施数量'},
-    # ...以此类推
+    3: {'纯数值', '渐进加成', '设施数量'},
 }
 
 IMPLEMENTED = CATEGORIES.get(VERSION, set())
@@ -41,6 +47,9 @@ for s in mfg_skills:
         'recipe': s['recipe'],
         'id': s['id'],
         'desc': s['desc'],
+        'prod_per_facility': s.get('prod_per_facility'),
+        'prod_per_dorm': s.get('prod_per_dorm'),
+        'prod_per_training': s.get('prod_per_training'),
     }
 
 # ============================================================
@@ -74,6 +83,36 @@ def calc_ramp_avg(desc, hours):
 
     return None
 
+def calc_facility_prod(meta):
+    """计算设施数量类技能的产能。优先用元数据，否则解析描述。"""
+    pf = meta.get('prod_per_facility')
+    if pf:
+        count = TRADING_POSTS if pf['type'] == 'trading_post' else POWER_PLANTS
+        return float(pf['value'].replace('%', '').replace('+', '')) * count
+
+    pd = meta.get('prod_per_dorm')
+    if pd:
+        return float(pd['value'].replace('%', '').replace('+', '')) * DORMS * DORM_LEVEL
+
+    pt = meta.get('prod_per_training')
+    if pt:
+        raw = float(pt['value'].replace('%', '').replace('+', '')) * TRAINING_LEVEL
+        cap = float(pt['max'].replace('%', '')) if pt.get('max') else raw
+        return min(raw, cap)
+
+    # 回退: 从描述中解析
+    desc = meta.get('desc', '')
+    if '训练室每级' in desc:
+        m = re.search(r'([+-]\d+)%.*?生产力', desc)
+        if not m: m = re.search(r'生产力.*?([+-]\d+)%', desc)
+        if m:
+            raw = float(m.group(1).replace('+', '')) * TRAINING_LEVEL
+            max_m = re.search(r'最多(\d+)%', desc)
+            cap = float(max_m.group(1)) if max_m else raw
+            return min(raw, cap)
+
+    return None
+
 def calc_slot_prod(slot_skills, elite, hours):
     """计算某个槽位在指定精英阶段下的有效产能"""
     best = None
@@ -99,8 +138,10 @@ def calc_slot_prod(slot_skills, elite, hours):
             prod = extract_prod(desc)
         elif cat == '渐进加成':
             prod = calc_ramp_avg(desc, hours)
+        elif cat == '设施数量':
+            prod = calc_facility_prod(meta)
         else:
-            prod = None  # 未实现的类别
+            prod = None
 
         if prod is None or prod <= 0:
             continue
@@ -155,21 +196,18 @@ dual_ops = [op for op in operators if ' + ' in op['details']]
 out = []
 out.append('=' * 70)
 out.append(f'  赤金最高生产力三人组 — V{VERSION}  {", ".join(sorted(IMPLEMENTED))}')
-out.append(f'  在岗 {HOURS:.0f}h  |  双槽位模型')
+out.append(f'  在岗 {HOURS:.0f}h  |  基建: {TRADING_POSTS}贸易站 {POWER_PLANTS}发电站 {DORMS}宿舍x{DORM_LEVEL}级 训练室{TRAINING_LEVEL}级')
 out.append('=' * 70)
 out.append('')
 
-if '渐进加成' in IMPLEMENTED:
-    out.append(f'渐进加成技能 ({HOURS:.0f}h 平均):')
-    for op in operators:
-        if any('渐进加成' in str(s) for s in [op]):
-            pass
-    # List all ramp-up operators
-    for op in operators:
-        for c in candidates:
-            if c['charId'] == op['charId'] and c['elite'] == op['elite']:
-                if '渐进加成' in str(c):
-                    pass
+if '设施数量' in IMPLEMENTED:
+    out.append('设施数量技能:')
+    for s in mfg_skills:
+        if s.get('category') == '设施数量' and s['recipe'] in ('gold', 'any'):
+            prod = calc_facility_prod(s) or 0
+            ops = ', '.join(f'{o["name"]}(精{o["elite"]})' for o in s['operators'])
+            out.append(f'  #{s["id"]} {s["name"]:12s} → {prod:+.0f}%  ({ops})')
+    out.append('')
 
 out.append(f'候选干员: {len(operators)} 人')
 if dual_ops:
