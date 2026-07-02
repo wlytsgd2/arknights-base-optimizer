@@ -12,7 +12,7 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 # ============================================================
 # 配置
 # ============================================================
-VERSION = 8                    # 当前版本号
+VERSION = 9                    # 当前版本号
 HOURS = float(sys.argv[1]) if len(sys.argv) > 1 else 12.0
 
 # 基建配置
@@ -21,6 +21,9 @@ POWER_PLANTS = 3
 DORMS = 4
 DORM_LEVEL = 5       # 每间宿舍等级(满级5000氛围=5级)
 TRAINING_LEVEL = 3   # 训练室等级
+
+# 工程机器人: 全基建设施等级合计 (3电厂×3 + 4制造×3 + 2贸易×3 + 4宿舍×5 + 3训练×3 + 办公×3 + 会客×3 + 加工×3 + 中枢×5 ≈ 80+, 上限64)
+ROBOTS = 64
 
 # 各版本已实现的技能类别
 CATEGORIES = {
@@ -32,6 +35,7 @@ CATEGORIES = {
     6: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成', '技能联动'},
     7: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成', '技能联动', '归零'},
     8: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成', '技能联动', '归零', '仓库→产能'},
+    9: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成', '技能联动', '归零', '仓库→产能', '中间产物'},
 }
 
 IMPLEMENTED = CATEGORIES.get(VERSION, set())
@@ -211,6 +215,18 @@ def calc_slot_prod(slot_skills, elite, hours):
                 prod = 0
             else:
                 prod = None
+        elif cat == '中间产物':
+            # 至简机器人链: #23绘图设计(产机器人) + #24/#25机械辅助(机器人→产能)
+            if '工程机器人' in desc and '生产力' in desc:
+                # #24 机械辅助·α: 每16机器人+5%  /  #25 机械辅助·β: 每8机器人+5%
+                is_dynamic = True
+                dynamic_type = 'robot_to_prod'
+                prod = 0
+            elif '工程机器人' in desc:
+                # #23 绘图设计: 产生机器人, 无直接产能
+                prod = 0
+            else:
+                prod = None
         else:
             prod = None
 
@@ -383,13 +399,20 @@ def resolve_trio(trio):
                     total_wh = sum(other.get('total_wh', 0) for other in trio)
                     bonus = total_wh * 2.0
             elif dtype == 'wh_to_prod_tiered':
-                # #87 大就是好！: 每干员自身仓库阶梯计算, 优先生效
                 for other in trio:
                     wh = other.get('total_wh', 0)
                     if wh <= 16:
                         bonus += wh * 1
                     else:
                         bonus += 16 * 1 + (wh - 16) * 3
+            elif dtype == 'robot_to_prod':
+                # #24 每16机器人+5%  /  #25 每8机器人+5%
+                desc = ds.get('description', '')
+                m = re.search(r'每.*?(\d+).*?个.*?机器人.*?([+-]\d+)%', desc)
+                if m:
+                    per = int(m.group(1))
+                    pct = float(m.group(2))
+                    bonus = (ROBOTS // per) * pct
             final_prods[i] += bonus
 
     return sum(final_prods), final_prods
