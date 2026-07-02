@@ -12,7 +12,7 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 # ============================================================
 # 配置
 # ============================================================
-VERSION = 6                    # 当前版本号
+VERSION = 7                    # 当前版本号
 HOURS = float(sys.argv[1]) if len(sys.argv) > 1 else 12.0
 
 # 基建配置
@@ -30,6 +30,7 @@ CATEGORIES = {
     4: {'纯数值', '渐进加成', '设施数量', 'COOP同站'},
     5: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成'},
     6: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成', '技能联动'},
+    7: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成', '技能联动', '归零'},
 }
 
 IMPLEMENTED = CATEGORIES.get(VERSION, set())
@@ -181,17 +182,24 @@ def calc_slot_prod(slot_skills, elite, hours):
             prod = 0  # 基础为0, 枚举时计算
         elif cat == '技能联动':
             if '配合意识' in name or '每5%生产力' in desc:
-                # #46: 其他干员每5%产能→+5%, max+40%
                 is_dynamic = True
                 dynamic_type = 'synergy_multiply'
                 prod = 0
             elif '每个' in desc and '类技能' in desc:
-                # #27 #69 #70: 每个X类技能+5%
                 is_dynamic = True
                 dynamic_type = 'per_skill_class'
                 prod = 0
             else:
-                prod = extract_prod(desc)  # fallback
+                prod = extract_prod(desc)
+        elif cat == '归零':
+            if '每个' in desc and '干员' in desc and '生产力' in desc:
+                # #14 流程优化: 清零其他→每干员+10%
+                is_dynamic = True
+                dynamic_type = 'zero_out_per_op'
+                prod = 0
+            else:
+                # #15 科学改造: 仓库补偿, 无产能
+                prod = 0  # no productivity value
         else:
             prod = None
 
@@ -298,10 +306,23 @@ def resolve_trio(trio):
                 break
         resolved_prod.append(prod)
 
-    # 统计 A1 人数 (用于重聚时光)
+    # 检查归零技能: 清零其他干员的非设施产能
+    zero_out_idx = None
+    for i, op in enumerate(trio):
+        for ds in op.get('dynamic_slots', []):
+            if ds.get('dynamic_type') == 'zero_out_per_op':
+                zero_out_idx = i
+                break
+    if zero_out_idx is not None:
+        for i in range(3):
+            if i != zero_out_idx:
+                # 只保留设施数量类产能 (base_prod - non_fac_prod = 纯设施部分)
+                resolved_prod[i] = trio[i]['base_prod'] - trio[i].get('non_fac_prod', 0)
+
+    # 统计 A1 人数
     a1_count = sum(1 for op in trio if op.get('is_a1'))
 
-    # 统计各类技能数量 (用于技能联动)
+    # 统计各类技能数量
     class_counts = {}
     for op in trio:
         for sc in op.get('skill_classes', []):
@@ -314,28 +335,29 @@ def resolve_trio(trio):
             dtype = ds.get('dynamic_type')
             bonus = 0
             if dtype == 'a1_squad':
-                bonus = a1_count * 10.0  # 每个A1成员+10%
+                bonus = a1_count * 10.0
             elif dtype == 'per_skill_class':
-                # 从描述中提取目标技能类别
                 desc = ds.get('description', '')
                 target_class = None
-                if '金属工艺' in desc:
-                    target_class = 'metal'
-                elif '莱茵科技' in desc:
-                    target_class = 'rhine'
-                elif '标准化' in desc:
-                    target_class = 'standard'
+                if '金属工艺' in desc: target_class = 'metal'
+                elif '莱茵科技' in desc: target_class = 'rhine'
+                elif '标准化' in desc: target_class = 'standard'
                 if target_class:
                     count = class_counts.get(target_class, 0)
                     bonus = count * 5.0
             elif dtype == 'synergy_multiply':
-                # #46 配合意识: 其他干员每5%非设施产能→+5%, max+40%
-                other_non_fac = 0
-                for j, other in enumerate(trio):
-                    if j == i:
-                        continue
-                    other_non_fac += other.get('non_fac_prod', 0)
-                bonus = min(int(other_non_fac / 5) * 5, 40)
+                if zero_out_idx is not None and zero_out_idx != i:
+                    bonus = 0  # 被归零了
+                else:
+                    other_non_fac = 0
+                    for j, other in enumerate(trio):
+                        if j == i: continue
+                        if zero_out_idx is not None and j != zero_out_idx:
+                            continue  # j被归零, non_fac=0
+                        other_non_fac += other.get('non_fac_prod', 0)
+                    bonus = min(int(other_non_fac / 5) * 5, 40)
+            elif dtype == 'zero_out_per_op':
+                bonus = 3 * 10.0  # 3人×10%
             final_prods[i] += bonus
 
     return sum(final_prods), final_prods
