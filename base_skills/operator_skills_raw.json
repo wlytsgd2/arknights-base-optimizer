@@ -1,0 +1,3038 @@
+{
+  "char_286_cast3": {
+    "charId": "char_286_cast3",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "power_rec_spd[000]",
+            "buffName": "备用能源",
+            "roomType": "POWER",
+            "description": "进驻发电站时，无人机充能速度<@cc.vup>+10%</>",
+            "skillIcon": "bskill_pow_spd1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 30,
+            "buffId": "manu_formula_spd[010]",
+            "buffName": "作战指导录像",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_exp2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_500_noirc": {
+    "charId": "char_500_noirc",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit[001]",
+            "buffName": "仓库整备·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+10</>，生产力<@cc.vup>+10%</>",
+            "skillIcon": "bskill_man_spd&limit3"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 30,
+            "buffId": "trade_ord_spd&limit[000]",
+            "buffName": "订单管理·α",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，订单获取效率<@cc.vup>+10%</>，且订单上限<@cc.vup>+2</>",
+            "skillIcon": "bskill_tra_spd&limit1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_502_nblade": {
+    "charId": "char_502_nblade",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "trade_ord_spd[001]",
+            "buffName": "订单分发·β",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，订单获取效率<@cc.vup>+30%</>",
+            "skillIcon": "bskill_tra_spd2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 30,
+            "buffId": "manu_prod_spd[000]",
+            "buffName": "标准化·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_121_lava": {
+    "charId": "char_121_lava",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "power_rec_spd[001]",
+            "buffName": "热能充能·α",
+            "roomType": "POWER",
+            "description": "进驻发电站时，无人机充能速度<@cc.vup>+10%</>",
+            "skillIcon": "bskill_pow_spd1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_spd[210]",
+            "buffName": "源石工艺·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>源石</>类配方的生产力<@cc.vup>+35%</>",
+            "skillIcon": "bskill_man_originium2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_122_beagle": {
+    "charId": "char_122_beagle",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit[000]",
+            "buffName": "仓库整备·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+6</>，生产力<@cc.vup>+10%</>",
+            "skillIcon": "bskill_man_spd&limit1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "dorm_rec_single&oneself[000]",
+            "buffName": "活泼",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复<@cc.vup>+0.2</>（同种效果取最高）；同时自身心情每小时恢复<@cc.vup>+0.4</>",
+            "skillIcon": "bskill_dorm_single&one01"
+          }
+        ]
+      }
+    ]
+  },
+  "char_123_fang": {
+    "charId": "char_123_fang",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd_addition[030]",
+            "buffName": "急性子",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站后，生产力首小时<@cc.vup>+20%</>，此后每小时<@cc.vup>+1%</>，最终达到<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd_add1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "trade_ord_spd[001]",
+            "buffName": "订单分发·β",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，订单获取效率<@cc.vup>+30%</>",
+            "skillIcon": "bskill_tra_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_124_kroos": {
+    "charId": "char_124_kroos",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd_addition[040]",
+            "buffName": "慢性子",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站后，生产力首小时<@cc.vup>+15%</>，此后每小时<@cc.vup>+2%</>，最终达到<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd_add2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "dorm_rec_oneself[000]",
+            "buffName": "独处",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，自身心情每小时恢复<@cc.vup>+0.7</>",
+            "skillIcon": "bskill_dorm_one2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_209_ardign": {
+    "charId": "char_209_ardign",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit[000]",
+            "buffName": "仓库整备·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+6</>，生产力<@cc.vup>+10%</>",
+            "skillIcon": "bskill_man_spd&limit1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "dorm_rec_single&oneself[000]",
+            "buffName": "活泼",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复<@cc.vup>+0.2</>（同种效果取最高）；同时自身心情每小时恢复<@cc.vup>+0.4</>",
+            "skillIcon": "bskill_dorm_single&one01"
+          }
+        ]
+      }
+    ]
+  },
+  "char_210_stward": {
+    "charId": "char_210_stward",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "trade_ord_limit&cost[000]",
+            "buffName": "谈判",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，订单上限<@cc.vup>+5</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_tra_limit&cost"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_prod_spd[010]",
+            "buffName": "标准化·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_240_wyvern": {
+    "charId": "char_240_wyvern",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[010]",
+            "buffName": "标准化·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "trade_ord_spd[000]",
+            "buffName": "订单分发·α",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，订单获取效率<@cc.vup>+20%</>",
+            "skillIcon": "bskill_tra_spd1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_283_midn": {
+    "charId": "char_283_midn",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "trade_ord_spd&cost[000]",
+            "buffName": "交际",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，订单获取效率<@cc.vup>+30%</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_tra_spd&cost"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_spd[200]",
+            "buffName": "源石工艺·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>源石</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_originium1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_281_popka": {
+    "charId": "char_281_popka",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit&cost[010]",
+            "buffName": "麻烦制造者",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>，仓库容量上限<@cc.vdown>-12</>，心情每小时消耗<@cc.vdown>+0.25</>",
+            "skillIcon": "bskill_man_spd&limit&cost3"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "dorm_rec_single&oneself[020]",
+            "buffName": "和谐",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复<@cc.vup>+0.4</>（同种效果取最高）；同时自身心情每小时恢复<@cc.vup>+0.2</>",
+            "skillIcon": "bskill_dorm_single&one21"
+          }
+        ]
+      }
+    ]
+  },
+  "char_284_spot": {
+    "charId": "char_284_spot",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "workshop_proc_probability[010]",
+            "buffName": "能工巧匠",
+            "roomType": "WORKSHOP",
+            "description": "进驻加工站加工<@cc.kw>任意类材料</>时，副产品的产出概率提升<@cc.vup>50%</>",
+            "skillIcon": "bskill_ws_p2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_spd[100]",
+            "buffName": "金属工艺·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_gold1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_118_yuki": {
+    "charId": "char_118_yuki",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "meet_spd[020]",
+            "buffName": "线索搜集·β",
+            "roomType": "MEETING",
+            "description": "进驻会客室时，线索搜集速度提升<@cc.vup>20%</>",
+            "skillIcon": "bskill_meet_spd2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_spd[010]",
+            "buffName": "作战指导录像",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_exp2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_126_shotst": {
+    "charId": "char_126_shotst",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[000]",
+            "buffName": "标准化·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "dorm_rec_single[010]",
+            "buffName": "善解人意",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复<@cc.vup>+0.55</>（同种效果取最高）",
+            "skillIcon": "bskill_dorm_single1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_141_nights": {
+    "charId": "char_141_nights",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd[100]",
+            "buffName": "金属工艺·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_gold1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "trade_ord_spd[001]",
+            "buffName": "订单分发·β",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，订单获取效率<@cc.vup>+30%</>",
+            "skillIcon": "bskill_tra_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_149_scave": {
+    "charId": "char_149_scave",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "control_mp_cost[001]",
+            "buffName": "S.W.E.E.P.",
+            "roomType": "CONTROL",
+            "description": "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复<@cc.vup>+0.05</>",
+            "skillIcon": "bskill_ctrl_cost"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[000]",
+            "buffName": "拾荒者",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+8</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_150_snakek": {
+    "charId": "char_150_snakek",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit[001]",
+            "buffName": "仓库整备·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+10</>，生产力<@cc.vup>+10%</>",
+            "skillIcon": "bskill_man_spd&limit3"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "trade_ord_spd[000]",
+            "buffName": "订单分发·α",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，订单获取效率<@cc.vup>+20%</>",
+            "skillIcon": "bskill_tra_spd1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_181_flower": {
+    "charId": "char_181_flower",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "workshop_formula_probability[110]",
+            "buffName": "药理学·α",
+            "roomType": "WORKSHOP",
+            "description": "进驻加工站加工<@cc.kw>精英材料</>时，副产品的产出概率提升<@cc.vup>75%</>",
+            "skillIcon": "bskill_ws_evolve2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_prod_spd[010]",
+            "buffName": "标准化·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_183_skgoat": {
+    "charId": "char_183_skgoat",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "hire_spd_cost[010]",
+            "buffName": "天灾信使·α",
+            "roomType": "HIRE",
+            "description": "进驻人力办公室时，人脉资源的联络速度<@cc.vup>+30%</>",
+            "skillIcon": "bskill_hire_spd2"
+          },
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "hire_spd_cost[200]",
+            "buffName": "准时下班",
+            "roomType": "HIRE",
+            "description": "进驻人力办公室时，人脉资源的联络速度<@cc.vup>+45%</>，心情每小时消耗<@cc.vdown>+2</>",
+            "skillIcon": "bskill_hire_skgoat"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_spd[211]",
+            "buffName": "地质学·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>源石</>类配方的生产力<@cc.vup>+35%</>",
+            "skillIcon": "bskill_man_originium2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_193_frostl": {
+    "charId": "char_193_frostl",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "dorm_rec_oneself[000]",
+            "buffName": "独处",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，自身心情每小时恢复<@cc.vup>+0.7</>",
+            "skillIcon": "bskill_dorm_one2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_spd[010]",
+            "buffName": "作战指导录像",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_exp2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_235_jesica": {
+    "charId": "char_235_jesica",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[010]",
+            "buffName": "标准化·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "meet_spd&team[030]",
+            "buffName": "联络员",
+            "roomType": "MEETING",
+            "description": "进驻会客室时，线索搜集速度提升<@cc.vup>10%</>，且更容易获得<@cc.kw>黑钢国际</>线索（工作时长影响概率）",
+            "skillIcon": "bskill_meet_blacksteel2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_237_gravel": {
+    "charId": "char_237_gravel",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "workshop_proc_probability[000]",
+            "buffName": "专注·α",
+            "roomType": "WORKSHOP",
+            "description": "进驻加工站加工<@cc.kw>任意类材料</>时，副产品的产出概率提升<@cc.vup>40%</>",
+            "skillIcon": "bskill_ws_p1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_spd[110]",
+            "buffName": "金属工艺·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+35%</>",
+            "skillIcon": "bskill_man_gold2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_290_vigna": {
+    "charId": "char_290_vigna",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd[010]",
+            "buffName": "作战指导录像",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_exp2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "train_spd&profession[011]",
+            "buffName": "先锋专精·β",
+            "roomType": "TRAINING",
+            "description": "进驻训练室协助位时，<@cc.kw>先锋</>干员的专精技能训练速度<@cc.vup>+50%</>",
+            "skillIcon": "bskill_train_vanguard2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_108_silent": {
+    "charId": "char_108_silent",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[001]",
+            "buffName": "莱茵科技·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[011]",
+            "buffName": "莱茵科技·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_128_plosis": {
+    "charId": "char_128_plosis",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[001]",
+            "buffName": "莱茵科技·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[011]",
+            "buffName": "莱茵科技·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_163_hpsts": {
+    "charId": "char_163_hpsts",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit&cost[000]",
+            "buffName": "工匠精神·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vdown>-5%</>，仓库容量上限<@cc.vup>+16</>，心情每小时消耗<@cc.vup>-0.15</>",
+            "skillIcon": "bskill_man_spd&limit&cost1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit&cost[001]",
+            "buffName": "工匠精神·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vdown>-5%</>，仓库容量上限<@cc.vup>+19</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_spd&limit&cost2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_241_panda": {
+    "charId": "char_241_panda",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd[010]",
+            "buffName": "作战指导录像",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_exp2"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd[020]",
+            "buffName": "拳术指导录像",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+35%</>",
+            "skillIcon": "bskill_man_exp3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_242_otter": {
+    "charId": "char_242_otter",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "workshop_proc_probability[030]",
+            "buffName": "咪波·加工型",
+            "roomType": "WORKSHOP",
+            "description": "进驻加工站加工<@cc.kw>任意类材料</>时，副产品的产出概率提升<@cc.vup>65%</>",
+            "skillIcon": "bskill_ws_p4"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[020]",
+            "buffName": "咪波·制造型",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_spd3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_180_amgoat": {
+    "charId": "char_180_amgoat",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd[213]",
+            "buffName": "火山学家",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>源石</>类配方的生产力<@cc.vup>+35%</>",
+            "skillIcon": "bskill_man_originium2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "hire_spd[011]",
+            "buffName": "天灾信使·β",
+            "roomType": "HIRE",
+            "description": "进驻人力办公室时，人脉资源的联络速度<@cc.vup>+45%</>",
+            "skillIcon": "bskill_hire_spd5"
+          }
+        ]
+      }
+    ]
+  },
+  "char_348_ceylon": {
+    "charId": "char_348_ceylon",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "workshop_formula_probability[129]",
+            "buffName": "学者",
+            "roomType": "WORKSHOP",
+            "description": "进驻加工站加工<@cc.kw>精英材料</>时，副产品的产出概率提升<@cc.vup>80%</>",
+            "skillIcon": "bskill_ws_evolve3"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd[212]",
+            "buffName": "源石研究",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>源石</>类配方的生产力<@cc.vup>+35%</>",
+            "skillIcon": "bskill_man_originium2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_190_clour": {
+    "charId": "char_190_clour",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[0000]",
+            "buffName": "拾荒者",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+8</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_prod_spd_variable[000]",
+            "buffName": "回收利用",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内干员提升的每格仓库容量，提供<@cc.vup>2%</>生产力",
+            "skillIcon": "bskill_man_spd_variable11"
+          }
+        ]
+      }
+    ]
+  },
+  "char_243_waaifu": {
+    "charId": "char_243_waaifu",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_cost_all[000]",
+            "buffName": "团队精神",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>消除</>当前制造站内所有干员<@cc.kw>自身</>心情消耗的影响",
+            "skillIcon": "bskill_man_cost_all"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_variable2[000]",
+            "buffName": "配合意识",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内其他干员提供的每<@cc.vup>5%</>生产力（不包含根据设施数量提供加成的生产力），额外提供<@cc.vup>5%</>生产力，最多提供<@cc.vup>40%</>生产力",
+            "skillIcon": "bskill_man_spd_variable21"
+          }
+        ]
+      }
+    ]
+  },
+  "char_385_finlpp": {
+    "charId": "char_385_finlpp",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "power_rec_spd[011]",
+            "buffName": "清洁能源",
+            "roomType": "POWER",
+            "description": "进驻发电站时，无人机充能速度<@cc.vup>+15%</>",
+            "skillIcon": "bskill_pow_spd2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_prod_spd&trade[000]",
+            "buffName": "再生能源",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每个<@cc.kw>贸易站</>为当前制造站<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+20%</>",
+            "skillIcon": "bskill_man_spd&trade"
+          }
+        ]
+      }
+    ]
+  },
+  "char_2013_cerber": {
+    "charId": "char_2013_cerber",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[002]",
+            "buffName": "“都想要”",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+8</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_addition[031]",
+            "buffName": "“等不及”",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站后，生产力首小时<@cc.vup>+20%</>，此后每小时<@cc.vup>+1%</>，最终达到<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd_add1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_159_peacok": {
+    "charId": "char_159_peacok",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "dorm_rec_single[030]",
+            "buffName": "天启",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复<@cc.vup>+0.7</>（同种效果取最高）",
+            "skillIcon": "bskill_dorm_single3"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_spd[020]",
+            "buffName": "拳术指导录像",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+35%</>",
+            "skillIcon": "bskill_man_exp3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_400_weedy": {
+    "charId": "char_400_weedy",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&power[010]",
+            "buffName": "自动化·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内其他干员提供的生产力<@cc.vdown>全部归零</>（不包含根据设施数量提供加成的生产力），每个<@cc.kw>发电站</>为当前制造站<@cc.vup>+10%</>的生产力",
+            "skillIcon": "bskill_man_spd&power2"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd&power[020]",
+            "buffName": "仿生海龙",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内其他干员提供的生产力<@cc.vdown>全部归零</>（不包含根据设施数量提供加成的生产力），每个<@cc.kw>发电站</>为当前制造站<@cc.vup>+15%</>的生产力",
+            "skillIcon": "bskill_man_spd&power3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_378_asbest": {
+    "charId": "char_378_asbest",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit&cost[011]",
+            "buffName": "特立独行",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>，仓库容量上限<@cc.vdown>-12</>，心情每小时消耗<@cc.vdown>+0.25</>",
+            "skillIcon": "bskill_man_spd&limit&cost3"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[020]",
+            "buffName": "探险者",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+16</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_328_cammou": {
+    "charId": "char_328_cammou",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_cost[000]",
+            "buffName": "Vlog",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产<@cc.kw>作战记录</>类配方时，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_exp&cost"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_limit[010]",
+            "buffName": "剪辑·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产<@cc.kw>作战记录</>类配方时，仓库容量上限<@cc.vup>+15</>",
+            "skillIcon": "bskill_man_exp&limit2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_336_folivo": {
+    "charId": "char_336_folivo",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd_addition[041]",
+            "buffName": "延时摄影",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站后，生产力首小时<@cc.vup>+15%</>，此后每小时<@cc.vup>+2%</>，最终达到<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd_add2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_limit[0000]",
+            "buffName": "剪辑·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产<@cc.kw>作战记录</>类配方时，仓库容量上限<@cc.vup>+12</>",
+            "skillIcon": "bskill_man_exp&limit1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_416_zumama": {
+    "charId": "char_416_zumama",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&power[000]",
+            "buffName": "自动化·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内其他干员提供的生产力<@cc.vdown>全部归零</>（不包含根据设施数量提供加成的生产力），每个<@cc.kw>发电站</>为当前制造站<@cc.vup>+5%</>的生产力",
+            "skillIcon": "bskill_man_spd&power1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd&power[010]",
+            "buffName": "自动化·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内其他干员提供的生产力<@cc.vdown>全部归零</>（不包含根据设施数量提供加成的生产力），每个<@cc.kw>发电站</>为当前制造站<@cc.vup>+10%</>的生产力",
+            "skillIcon": "bskill_man_spd&power2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "control_pow_bot[000]",
+            "buffName": "我寻思能行",
+            "roomType": "CONTROL",
+            "description": "进驻控制中枢时，如果<@cc.kw>Lancet-2</>进驻在<@cc.kw>发电站</>，<@cc.kw>发电站</>额外<@cc.vup>+2</>（仅影响设施数量）",
+            "skillIcon": "bskill_ctrl_p_bot"
+          }
+        ]
+      }
+    ]
+  },
+  "char_388_mint": {
+    "charId": "char_388_mint",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "train_spd&profession2[050]",
+            "buffName": "术师专精·α",
+            "roomType": "TRAINING",
+            "description": "进驻训练室协助位时，<@cc.kw>术师</>干员的专精技能训练速度<@cc.vup>+30%</>",
+            "skillIcon": "bskill_train_caster1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "train_spd&profession2[250]",
+            "buffName": "博览群书",
+            "roomType": "TRAINING",
+            "description": "进驻训练室协助位时，<@cc.kw>术师</>干员的专精技能训练速度<@cc.vup>+30%</>，如果本次训练专精技能至<@cc.vup>2</>级，则训练速度额外<@cc.vup>+45%</>",
+            "skillIcon": "bskill_train2_caster1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_spd[201]",
+            "buffName": "地质学·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>源石</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_originium1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_381_bubble": {
+    "charId": "char_381_bubble",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[010]",
+            "buffName": "囤积者",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+10</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_prod_spd_variable3[000]",
+            "buffName": "大就是好！",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内干员根据自身提升的仓库容量提供一定的生产力。提升<@cc.vup>16</>格以下的，每格仓库容量提供<@cc.vup>1%</>生产力；提升大于<@cc.vup>16</>格的，每格仓库容量提供<@cc.vup>3%</>生产力（无法与<$cc.m.var1><@cc.rem>回收利用</></>叠加，且优先生效）",
+            "skillIcon": "bskill_man_spd_variable31"
+          }
+        ]
+      }
+    ]
+  },
+  "char_391_rosmon": {
+    "charId": "char_391_rosmon",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd_bd_n1[000]",
+            "buffName": "超感",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，宿舍内每有<@cc.kw>1</>名干员则<$cc.bd_a1><@cc.rem>感知信息</></><@cc.vup>+1</>，同时每<@cc.vup>1</>点<$cc.bd_a1><@cc.rem>感知信息</></>转化为<@cc.vup>1</>点<$cc.bd_A><@cc.rem>思维链环</></>",
+            "skillIcon": "bskill_man_spd_bd_n1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd_bd[000]",
+            "buffName": "念力",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每<@cc.vup>2</>点<$cc.bd_A><@cc.rem>思维链环</></><@cc.vup>+1%</>生产力",
+            "skillIcon": "bskill_man_spd_bd1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_bd[010]",
+            "buffName": "意识实体",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每<@cc.vup>1</>点<$cc.bd_A><@cc.rem>思维链环</></><@cc.vup>+1%</>生产力",
+            "skillIcon": "bskill_man_spd_bd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_452_bstalk": {
+    "charId": "char_452_bstalk",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[003]",
+            "buffName": "磐蟹·豆豆",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[001]",
+            "buffName": "磐蟹·阿盘",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+8</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_472_pasngr": {
+    "charId": "char_472_pasngr",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "power_rec_spd[003]",
+            "buffName": "电磁充能·α",
+            "roomType": "POWER",
+            "description": "进驻发电站时，无人机充能速度<@cc.vup>+10%</>",
+            "skillIcon": "bskill_pow_spd1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "power_rec_spd[016]",
+            "buffName": "聚能",
+            "roomType": "POWER",
+            "description": "进驻发电站时，无人机充能速度<@cc.vup>+15%</>",
+            "skillIcon": "bskill_pow_spd2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd&power[000]",
+            "buffName": "自动化·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内其他干员提供的生产力<@cc.vdown>全部归零</>（不包含根据设施数量提供加成的生产力），每个<@cc.kw>发电站</>为当前制造站<@cc.vup>+5%</>的生产力",
+            "skillIcon": "bskill_man_spd&power1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_369_bena": {
+    "charId": "char_369_bena",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit&cost[020]",
+            "buffName": "“可靠”助手",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vdown>-20%</>，仓库容量上限<@cc.vup>+17</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_spd&limit&cost4"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "trade_ord_wt&cost[000]",
+            "buffName": "裁缝·α",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，<@cc.kw>小幅提升</>当前贸易站<@cc.kw>高品质贵金属订单</>的出现概率（工作时长影响概率），心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_tra_wt&cost1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_485_pallas": {
+    "charId": "char_485_pallas",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[003]",
+            "buffName": "智慧之境",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+8</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd[000]",
+            "buffName": "胜利之计",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_exp1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_437_mizuki": {
+    "charId": "char_437_mizuki",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_skill_spd1[000]",
+            "buffName": "意识协议",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内每个<$cc.sk.manu1><@cc.kw>标准化类技能</></>为自身<@cc.vup>+5%</>的生产力",
+            "skillIcon": "bskill_man_skill_spd"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[010]",
+            "buffName": "标准化·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_484_robrta": {
+    "charId": "char_484_robrta",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "workshop_formula_probability[200]",
+            "buffName": "工程学",
+            "roomType": "WORKSHOP",
+            "description": "进驻加工站加工<@cc.kw>基建材料</>时，副产品的产出概率提升<@cc.vup>70%</>",
+            "skillIcon": "bskill_ws_build1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_prod_spd[010]",
+            "buffName": "标准化·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_430_fartth": {
+    "charId": "char_430_fartth",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "dorm_rec_all&oneself[042]",
+            "buffName": "“归乡”",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，自身心情每小时恢复<@cc.vup>+0.55</>，该宿舍内所有干员的心情每小时恢复<@cc.vup>+0.1</>（同种效果取最高）",
+            "skillIcon": "bskill_dorm_all&one3"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[002]",
+            "buffName": "红松骑士团·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[012]",
+            "buffName": "红松骑士团·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_431_ashlok": {
+    "charId": "char_431_ashlok",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[002]",
+            "buffName": "红松骑士团·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[012]",
+            "buffName": "红松骑士团·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_496_wildmn": {
+    "charId": "char_496_wildmn",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[002]",
+            "buffName": "红松骑士团·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[012]",
+            "buffName": "红松骑士团·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4041_chnut": {
+    "charId": "char_4041_chnut",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[000]",
+            "buffName": "标准化·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_formula_spd[201]",
+            "buffName": "地质学·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>源石</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_originium1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_433_windft": {
+    "charId": "char_433_windft",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "workshop_formula_probability[115]",
+            "buffName": "必修课程",
+            "roomType": "WORKSHOP",
+            "description": "进驻加工站加工<@cc.kw>精英材料</>时，副产品的产出概率提升<@cc.vup>75%</>",
+            "skillIcon": "bskill_ws_evolve2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd&power[000]",
+            "buffName": "自动化·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内其他干员提供的生产力<@cc.vdown>全部归零</>（不包含根据设施数量提供加成的生产力），每个<@cc.kw>发电站</>为当前制造站<@cc.vup>+5%</>的生产力",
+            "skillIcon": "bskill_man_spd&power1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4048_doroth": {
+    "charId": "char_4048_doroth",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_skill_spd1[010]",
+            "buffName": "源石技艺理论应用",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内每个<$cc.sk.manu2><@cc.kw>莱茵科技类技能</></>为自身<@cc.vup>+5%</>的生产力",
+            "skillIcon": "bskill_man_skill_spd2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[011]",
+            "buffName": "莱茵科技·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_135_halo": {
+    "charId": "char_135_halo",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[001]",
+            "buffName": "莱茵科技·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[011]",
+            "buffName": "莱茵科技·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4054_malist": {
+    "charId": "char_4054_malist",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_constrLv[000]",
+            "buffName": "绘图设计",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，基建内除活动室外每间设施每级<@cc.vup>+1</>个<@cc.kw><$cc.bd_malist>工程机器人</></>，上限<@cc.vup>64</>个",
+            "skillIcon": "bskill_man_constrLv"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd_bd[100]",
+            "buffName": "机械辅助·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每<@cc.vup>16</>个<@cc.kw><$cc.bd_malist>工程机器人</></><@cc.vup>+5%</>生产力",
+            "skillIcon": "bskill_man_spd_bd3"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_bd[110]",
+            "buffName": "机械辅助·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每<@cc.vup>8</>个<@cc.kw><$cc.bd_malist>工程机器人</></><@cc.vup>+5%</>生产力",
+            "skillIcon": "bskill_man_spd_bd4"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4066_highmo": {
+    "charId": "char_4066_highmo",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_skill_change[000]",
+            "buffName": "意识兼容",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内所有<$cc.sk.manu2><@cc.kw>莱茵科技类</></>、<$cc.sk.manu3><@cc.kw>红松骑士团类</></>技能也全都视作<@cc.kw>标准化类</>技能",
+            "skillIcon": "bskill_man_skill_change"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[010]",
+            "buffName": "标准化·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4062_totter": {
+    "charId": "char_4062_totter",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd_reduce[000]",
+            "buffName": "模糊视线",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+30%</>，自身每有<@cc.kw>4</>点<$cc.bd.costdrop><@cc.kw>心情落差</></>，生产力<@cc.vdown>-5%</>",
+            "skillIcon": "bskill_man_spd_reduce"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_prod_spd_addition&cost[000]",
+            "buffName": "窗外雪啸",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当自身<$cc.bd.costdrop><@cc.kw>心情落差</></>大于<@cc.kw>12</>时，生产力<@cc.vup>+10%</>，仓库容量<@cc.vup>+6</>",
+            "skillIcon": "bskill_man_spd_add&cost"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4063_quartz": {
+    "charId": "char_4063_quartz",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[000]",
+            "buffName": "标准化·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "trade_ord_spd&formula[000]",
+            "buffName": "精准排期",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，订单获取效率<@cc.vup>+30%</>，制造站每有<@cc.kw>1</>类配方进行加工，则当前贸易站订单获取效率额外<@cc.vup>+2%</>",
+            "skillIcon": "bskill_tra_spd&formula1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4078_bdhkgt": {
+    "charId": "char_4078_bdhkgt",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_bd_to_bd[000]",
+            "buffName": "古老巫术",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每<@cc.vup>5</>点<$cc.bd_b1><@cc.rem>人间烟火</></>转化为<@cc.vup>1</>点<$cc.bd_C><@cc.rem>巫术结晶</></>",
+            "skillIcon": "bskill_man_bd1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd_bd[200]",
+            "buffName": "逐水草",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每<@cc.vup>1</>点<$cc.bd_C><@cc.rem>巫术结晶</></><@cc.vup>+1%</>生产力",
+            "skillIcon": "bskill_man_spd_bd5"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_bd[201]",
+            "buffName": "问枯荣",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每<@cc.vup>1</>点<$cc.bd_C><@cc.rem>巫术结晶</></><@cc.vup>+2%</>生产力",
+            "skillIcon": "bskill_man_spd_bd6"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4077_palico": {
+    "charId": "char_4077_palico",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "trade_ord_spd&limit&bd[000]",
+            "buffName": "可爱的艾露猫",
+            "roomType": "TRADING",
+            "description": "进驻贸易站时，订单获取效率<@cc.vup>+5%</>，且订单上限<@cc.vup>+2</>，同时每有1个<$cc.bd_felyne><@cc.rem>木天蓼</></>，则订单获取效率<@cc.vup>+3%</>",
+            "skillIcon": "bskill_tra_spd&limit_felyne"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 30,
+            "buffId": "manu_prod_spd&limit&bd[000]",
+            "buffName": "可靠的随从们",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+8</>，生产力<@cc.vup>+5%</>，同时每有1个<$cc.bd_felyne><@cc.rem>木天蓼</></>，则生产力<@cc.vup>+1%</>",
+            "skillIcon": "bskill_man_spd&limit_felyne"
+          }
+        ]
+      }
+    ]
+  },
+  "char_464_cement": {
+    "charId": "char_464_cement",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[000]",
+            "buffName": "标准化·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[021]",
+            "buffName": "掘进工程",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+10</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost5"
+          }
+        ]
+      }
+    ]
+  },
+  "char_1031_slent2": {
+    "charId": "char_1031_slent2",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "hire_spd[032]",
+            "buffName": "不停歇的电话",
+            "roomType": "HIRE",
+            "description": "进驻人力办公室时，人脉资源的联络速度<@cc.vup>+40%</>",
+            "skillIcon": "bskill_hire_spd4"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[021]",
+            "buffName": "莱茵科技·γ",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_spd3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_1032_excu2": {
+    "charId": "char_1032_excu2",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd[030]",
+            "buffName": "公证所教习·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+20%</>",
+            "skillIcon": "bskill_man_exp4"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd[031]",
+            "buffName": "公证所教习·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_exp2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_limit[020]",
+            "buffName": "合理利用",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产<@cc.kw>作战记录</>类配方时，仓库容量上限<@cc.vup>+4</>",
+            "skillIcon": "bskill_man_exp&limit3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4106_bryota": {
+    "charId": "char_4106_bryota",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd[100]",
+            "buffName": "金属工艺·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_gold1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_skill_spd1[020]",
+            "buffName": "打工心得",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内每个<$cc.sk.manu4><@cc.kw>金属工艺类技能</></>为自身<@cc.vup>+5%</>的生产力",
+            "skillIcon": "bskill_man_skill_spd3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4105_almond": {
+    "charId": "char_4105_almond",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd&cost[000]",
+            "buffName": "小奇思",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+25%</>，心情每小时消耗<@cc.vdown>+0.25</>",
+            "skillIcon": "bskill_man_gold3"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd&cost_bd[000]",
+            "buffName": "挑大梁",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，基建内（不包含副手及活动室使用者）每有1名<$cc.g.bs><@cc.kw>黑钢国际</></>干员（最多<@cc.kw>3</>名），<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+2%</>，心情每小时消耗<@cc.vup>-0.15</>",
+            "skillIcon": "bskill_man_gold&blacksteel"
+          }
+        ]
+      }
+    ]
+  },
+  "char_194_leto": {
+    "charId": "char_194_leto",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "train_spd&profession[020]",
+            "buffName": "近卫专精·α",
+            "roomType": "TRAINING",
+            "description": "进驻训练室协助位时，<@cc.kw>近卫</>干员的专精技能训练速度<@cc.vup>+30%</>",
+            "skillIcon": "bskill_train_guard1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd_P[000]",
+            "buffName": "患难拍档",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，若<@cc.kw>古米</>在贸易站，则<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+35%</>",
+            "skillIcon": "bskill_formula_spd_sunbr"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4081_warmy": {
+    "charId": "char_4081_warmy",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "dorm_rec_all[014]",
+            "buffName": "大锅饭·α",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，该宿舍内所有干员的心情每小时恢复<@cc.vup>+0.15</>（同种效果取最高）",
+            "skillIcon": "bskill_dorm_all2"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "dorm_rec_all[024]",
+            "buffName": "大锅饭·β",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，该宿舍内所有干员的心情每小时恢复<@cc.vup>+0.2</>（同种效果取最高）",
+            "skillIcon": "bskill_dorm_all3"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd[101]",
+            "buffName": "金属工艺·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_gold1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_2025_shu": {
+    "charId": "char_2025_shu",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_cost[000]",
+            "buffName": "春雷响，万物长",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内所有干员心情每小时消耗<@cc.vup>-0.1</>",
+            "skillIcon": "bskill_man_cost_room1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_bd[300]",
+            "buffName": "稻禾厚，顺秋收",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每<@cc.vup>3</>点<$cc.bd_b1><@cc.rem>人间烟火</></><@cc.vup>+1%</>生产力",
+            "skillIcon": "bskill_man_spd_bd7"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4126_fuze": {
+    "charId": "char_4126_fuze",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "train_spd_tag[1030]",
+            "buffName": "战术指导·进攻",
+            "roomType": "TRAINING",
+            "description": "进驻训练室协助位时，基建内（不包含副手及活动室使用者）每名<$cc.g.Attack><@cc.kw>进攻方</></>干员为当前干员的专精技能训练速度<@cc.vup>+10%</>（最多生效<@cc.kw>4</>名）",
+            "skillIcon": "bskill_train_attack"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_bd[000]",
+            "buffName": "实干的寡言者",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+20%</>，每有<@cc.vup>1</>瓶<$cc.bd_tachanka><@cc.rem>乌萨斯特饮</></>，则仓库容量上限<@cc.vup>+2</>",
+            "skillIcon": "bskill_man_fuze"
+          }
+        ]
+      }
+    ]
+  },
+  "char_446_aroma": {
+    "charId": "char_446_aroma",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd&cost[001]",
+            "buffName": "净味香氛",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+25%</>，心情每小时消耗<@cc.vdown>+0.25</>",
+            "skillIcon": "bskill_man_gold4"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_addition[100]",
+            "buffName": "例行清扫",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站后，生产力每小时<@cc.vup>+2%</>，最终达到<@cc.vup>+20%</>",
+            "skillIcon": "bskill_man_spd_add3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_1036_fang2": {
+    "charId": "char_1036_fang2",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[1000]",
+            "buffName": "标准化·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd&fraction[000]",
+            "buffName": "重聚时光",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内每个<$cc.g.A1><@cc.kw>A1小队</></>干员为自身<@cc.vup>+10%</>的生产力",
+            "skillIcon": "bskill_man_A1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4138_narant": {
+    "charId": "char_4138_narant",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[011]",
+            "buffName": "无畏豪情",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+10</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd&dorm&lv[000]",
+            "buffName": "齐心沙盗",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每间宿舍每级为<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+1%</>",
+            "skillIcon": "bskill_man_spd&dorm1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4141_marcil": {
+    "charId": "char_4141_marcil",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[004]",
+            "buffName": "差遣使魔·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+20%</>",
+            "skillIcon": "bskill_man_marcille1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[014]",
+            "buffName": "差遣使魔·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_marcille2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_bd[400]",
+            "buffName": "意想不到的美味",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每<@cc.vup>1</>点<$cc.bd_dungeon><@cc.rem>魔物料理</></><@cc.vup>+1%</>生产力",
+            "skillIcon": "bskill_man_spd_bd_dungeon"
+          }
+        ]
+      }
+    ]
+  },
+  "char_1502_crosly": {
+    "charId": "char_1502_crosly",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "workshop_formula_probability[031]",
+            "buffName": "獠牙的技艺",
+            "roomType": "WORKSHOP",
+            "description": "进驻加工站加工<@cc.kw>技巧概要</>时，副产品的产出概率提升<@cc.vup>75%</>",
+            "skillIcon": "bskill_ws_skill2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd[022]",
+            "buffName": "逆境荣光",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+35%</>",
+            "skillIcon": "bskill_man_exp3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4155_talr": {
+    "charId": "char_4155_talr",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit&cost[100]",
+            "buffName": "量体裁衣",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+20%</>，心情每小时消耗<@cc.vdown>+0.25</>",
+            "skillIcon": "bskill_man_spd&cost1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit&cost[200]",
+            "buffName": "得心应手",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>，仓库容量上限<@cc.vup>+6</>",
+            "skillIcon": "bskill_man_spd&limit5"
+          }
+        ]
+      }
+    ]
+  },
+  "char_1039_thorn2": {
+    "charId": "char_1039_thorn2",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd[102]",
+            "buffName": "金属工艺·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_gold1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd&trade[1000]",
+            "buffName": "原质塑金副产物",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每个<@cc.kw>贸易站</>为当前制造站<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+3%</>",
+            "skillIcon": "bskill_man_spd&trade1"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4171_wulfen": {
+    "charId": "char_4171_wulfen",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit&cost[300]",
+            "buffName": "行动派",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+20%</>，仓库容量上限<@cc.vdown>-8</>",
+            "skillIcon": "bskill_man_spd&limit6"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[1020]",
+            "buffName": "收纳达人",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+16</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4178_alanna": {
+    "charId": "char_4178_alanna",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_token_prod_spd[000]",
+            "buffName": "机械精通·α",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每有<@cc.vup>1</>台<$cc.tag.op><@cc.kw>作业平台</></>进驻发电站，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+5%</>",
+            "skillIcon": "bskill_man_token_spd1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_token_prod_spd[010]",
+            "buffName": "机械精通·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，每有<@cc.vup>1</>台<$cc.tag.op><@cc.kw>作业平台</></>进驻发电站，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+10%</>",
+            "skillIcon": "bskill_man_token_spd2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_double[000]",
+            "buffName": "“搭把手！”",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当与<@cc.kw>温米</>在同一个制造站时，<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+15%</>",
+            "skillIcon": "bskill_man_spd_double"
+          }
+        ]
+      }
+    ]
+  },
+  "char_1042_phatm2": {
+    "charId": "char_1042_phatm2",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd&limit&cost[000]",
+            "buffName": "镜中影",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+20%</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_exp&spd&limit&cost1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd&limit&cost[010]",
+            "buffName": "戏中人",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+35%</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_exp&spd&limit&cost2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4198_christ": {
+    "charId": "char_4198_christ",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_limit&cost[012]",
+            "buffName": "午休好去处",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，仓库容量上限<@cc.vup>+10</>，心情每小时消耗<@cc.vup>-0.25</>",
+            "skillIcon": "bskill_man_limit&cost2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_double[100]",
+            "buffName": "盛餐的回报",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当与<@cc.kw>酒神</>在同一个制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_man_spd_double2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4208_wintim": {
+    "charId": "char_4208_wintim",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&manu[000]",
+            "buffName": "科学改造",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内其他干员提供的生产力<@cc.vdown>全部归零</>（不包含根据设施数量提供加成的生产力），每个当前制造站内干员为当前制造站仓库容量上限<@cc.vup>+5</>",
+            "skillIcon": "bskill_man_spd_manu1"
+          },
+          {
+            "elite": 1,
+            "level": 1,
+            "buffId": "manu_prod_spd&manu[100]",
+            "buffName": "流程优化",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内其他干员提供的生产力<@cc.vdown>全部归零</>（不包含根据设施数量提供加成的生产力），每个当前制造站内干员为当前制造站<@cc.vup>+10%</>生产力，仓库容量上限<@cc.vup>+5</>",
+            "skillIcon": "bskill_man_spd_manu2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_1047_halo2": {
+    "charId": "char_1047_halo2",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_skill_limit[000]",
+            "buffName": "勘探背包",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，当前制造站内每个<$cc.sk.manu2><@cc.kw>莱茵科技类</></>技能为自身<@cc.vup>+5</>的仓库上限容量",
+            "skillIcon": "bskill_man_limit1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd[011]",
+            "buffName": "莱茵科技·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4211_snhunt": {
+    "charId": "char_4211_snhunt",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit&cost[101]",
+            "buffName": "虔信",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+20%</>，心情每小时消耗<@cc.vdown>+0.25</>",
+            "skillIcon": "bskill_man_spd&cost2"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd&limit&cost[110]",
+            "buffName": "独当一面",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+30%</>，心情每小时消耗<@cc.vdown>+0.25</>",
+            "skillIcon": "bskill_man_spd&cost3"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4212_nasti": {
+    "charId": "char_4212_nasti",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_prod_spd[011]",
+            "buffName": "莱茵科技·β",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，生产力<@cc.vup>+25%</>",
+            "skillIcon": "bskill_man_spd2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd&cost_bd[100]",
+            "buffName": "造价高昂",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，基建内（不包含副手及活动室使用者）每有1名<$cc.g.rh><@cc.kw>莱茵生命</></>干员（最多<@cc.kw>5</>名），<@cc.kw>贵金属</>类配方的生产力<@cc.vup>+3%</>",
+            "skillIcon": "bskill_man_gold&rhine"
+          }
+        ]
+      }
+    ]
+  },
+  "char_1051_headb2": {
+    "charId": "char_1051_headb2",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "manu_formula_spd&bd[000]",
+            "buffName": "战阵领袖",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+30%</>",
+            "skillIcon": "bskill_formula_spd_headb1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd&bd[001]",
+            "buffName": "情同手足",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+30%</>，当与<$cc.g.ussg><@cc.kw>乌萨斯学生自治团</></>干员在同一个制造站时，<@cc.kw>作战记录</>类配方的生产力额外<@cc.vup>+10%</>",
+            "skillIcon": "bskill_formula_spd_headb2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "control_meeting_bd[000]",
+            "buffName": "“是，团长！”",
+            "roomType": "CONTROL",
+            "description": "进驻控制中枢时，自身心情每小时消耗<@cc.vdown>+0.5</>，每个进驻在会客室的<$cc.g.ussg><@cc.kw>乌萨斯学生自治团</></>干员，线索搜集速度<@cc.vup>+10%</>",
+            "skillIcon": "bskill_ctrl_c_ussg"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4226_veen": {
+    "charId": "char_4226_veen",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "train_spd_doubleProf[301]",
+            "buffName": "“我不懂啊”",
+            "roomType": "TRAINING",
+            "description": "进驻训练室协助位时，<@cc.kw>术师</>与<@cc.kw>近卫</>干员的专精技能训练速度<@cc.vup>+30%</>",
+            "skillIcon": "bskill_train_caster&vanguard1"
+          },
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "train_spd_doubleProf[310]",
+            "buffName": "“触类旁通”",
+            "roomType": "TRAINING",
+            "description": "进驻训练室协助位时，<@cc.kw>术师</>与<@cc.kw>近卫</>干员的专精技能训练速度<@cc.vup>+45%</>",
+            "skillIcon": "bskill_train_caster&vanguard2"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_prod_spd_train&lv[000]",
+            "buffName": "手艺人",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，训练室每级为当前制造站<@cc.vup>+10%</>生产力，最多<@cc.vup>30%</>",
+            "skillIcon": "bskill_man_spd_veen"
+          }
+        ]
+      }
+    ]
+  },
+  "char_4225_tanya": {
+    "charId": "char_4225_tanya",
+    "slots": [
+      {
+        "slotIndex": 0,
+        "skills": [
+          {
+            "elite": 0,
+            "level": 1,
+            "buffId": "dorm_rec_oneself[040]",
+            "buffName": "难得休憩",
+            "roomType": "DORMITORY",
+            "description": "进驻宿舍时，自身心情每小时恢复<@cc.vup>+0.55</>",
+            "skillIcon": "bskill_dorm_one1"
+          }
+        ]
+      },
+      {
+        "slotIndex": 1,
+        "skills": [
+          {
+            "elite": 2,
+            "level": 1,
+            "buffId": "manu_formula_spd&limit&cost[100]",
+            "buffName": "“连轴转”",
+            "roomType": "MANUFACTURE",
+            "description": "进驻制造站时，<@cc.kw>作战记录</>类配方的生产力<@cc.vup>+35%</>，心情每小时消耗<@cc.vdown>+0.25</>",
+            "skillIcon": "bskill_man_exp&spd&cost1"
+          }
+        ]
+      }
+    ]
+  }
+}
