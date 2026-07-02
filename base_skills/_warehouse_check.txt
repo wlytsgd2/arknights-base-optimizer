@@ -1,0 +1,32 @@
+=== 所有带仓库加成的制造站技能(赤金/通用) ===
+#  4 实干的寡言者           wh= +2  prod= +20%  [中间产物    ] impl=N  导火索(精2)
+# 14 流程优化             wh= +5  prod= None  [归零      ] impl=Y  冬时(精1)
+# 15 科学改造             wh= +5  prod= None  [归零      ] impl=Y  冬时(精0)
+# 36 行动派              wh= -8  prod= +20%  [纯数值     ] impl=Y  钼铅(精0)
+# 37 得心应手             wh= +6  prod= +25%  [纯数值     ] impl=Y  裁度(精2)
+# 38 掘进工程             wh=+10  prod= None  [纯数值     ] impl=Y  洋灰(精2)
+# 54 探险者              wh=+16  prod= None  [纯数值     ] impl=Y  石棉(精2)
+# 55 收纳达人             wh=+16  prod= None  [纯数值     ] impl=Y  钼铅(精2)
+# 56 特立独行             wh=-12  prod= +25%  [纯数值     ] impl=Y  石棉(精0)
+# 57 麻烦制造者            wh=-12  prod= +25%  [纯数值     ] impl=Y  泡普卡(精0)
+# 71 可靠的随从们           wh= +8  prod=  +5%  [中间产物    ] impl=N  泰拉大陆调查团(精0)
+# 72 仓库整备·β           wh=+10  prod= +10%  [纯数值     ] impl=Y  蛇屠箱(精0), 黑角(精0)
+# 73 仓库整备·α           wh= +6  prod= +10%  [纯数值     ] impl=Y  卡缇(精0), 米格鲁(精0)
+# 76 工匠精神·β           wh=+19  prod=  -5%  [纯数值     ] impl=Y  火神(精2)
+# 77 工匠精神·α           wh=+16  prod=  -5%  [纯数值     ] impl=Y  火神(精0)
+# 79 “可靠”助手           wh=+17  prod= -20%  [纯数值     ] impl=Y  贝娜(精0)
+# 84 午休好去处            wh=+10  prod= None  [纯数值     ] impl=Y  Miss.Christine(精0)
+# 85 无畏豪情             wh=+10  prod= None  [纯数值     ] impl=Y  娜仁图亚(精0)
+# 86 囤积者              wh=+10  prod= None  [纯数值     ] impl=Y  泡泡(精0)
+# 88 智慧之境             wh= +8  prod= None  [纯数值     ] impl=Y  帕拉斯(精0)
+# 90 “都想要”            wh= +8  prod= None  [纯数值     ] impl=Y  刻俄柏(精0)
+# 91 磐蟹·阿盘            wh= +8  prod= None  [纯数值     ] impl=Y  豆苗(精1)
+# 93 拾荒者              wh= +8  prod= None  [纯数值     ] impl=Y  清道夫(精1), 红云(精0)
+
+=== 红云 ===
+  #92 回收利用 [仓库→产能] recipe=any
+  #93 拾荒者 [纯数值] recipe=any
+
+=== 泡泡 ===
+  #86 囤积者 [纯数值] recipe=any
+  #87 大就是好！ [仓库→产能] recipe=any

@@ -12,7 +12,7 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 # ============================================================
 # 配置
 # ============================================================
-VERSION = 7                    # 当前版本号
+VERSION = 8                    # 当前版本号
 HOURS = float(sys.argv[1]) if len(sys.argv) > 1 else 12.0
 
 # 基建配置
@@ -31,6 +31,7 @@ CATEGORIES = {
     5: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成'},
     6: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成', '技能联动'},
     7: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成', '技能联动', '归零'},
+    8: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成', '技能联动', '归零', '仓库→产能'},
 }
 
 IMPLEMENTED = CATEGORIES.get(VERSION, set())
@@ -55,6 +56,7 @@ for s in mfg_skills:
         'prod_per_dorm': s.get('prod_per_dorm'),
         'prod_per_training': s.get('prod_per_training'),
         'coop_with': s.get('coop_with'),
+        'warehouse': s.get('warehouse', 0) or 0,
     }
 
 # 建立 buffName → 中文名 的映射 (用于COOP判定)
@@ -193,13 +195,22 @@ def calc_slot_prod(slot_skills, elite, hours):
                 prod = extract_prod(desc)
         elif cat == '归零':
             if '每个' in desc and '干员' in desc and '生产力' in desc:
-                # #14 流程优化: 清零其他→每干员+10%
                 is_dynamic = True
                 dynamic_type = 'zero_out_per_op'
                 prod = 0
             else:
-                # #15 科学改造: 仓库补偿, 无产能
-                prod = 0  # no productivity value
+                prod = 0
+        elif cat == '仓库→产能':
+            if '回收利用' in name or '每格仓库' in desc:
+                is_dynamic = True
+                dynamic_type = 'wh_to_prod_2pct'
+                prod = 0
+            elif '大就是好' in name or '16格' in desc:
+                is_dynamic = True
+                dynamic_type = 'wh_to_prod_tiered'
+                prod = 0
+            else:
+                prod = None
         else:
             prod = None
 
@@ -211,7 +222,8 @@ def calc_slot_prod(slot_skills, elite, hours):
         if best is None or sk['elite'] >= best['elite']:
             best = {**sk, 'prod': prod, 'recipe': recipe, 'category': cat,
                     'coop_requires': coop_requires, 'skill_class': skill_class,
-                    'is_dynamic': is_dynamic, 'dynamic_type': dynamic_type}
+                    'is_dynamic': is_dynamic, 'dynamic_type': dynamic_type,
+                    'warehouse': meta.get('warehouse', 0)}
 
     return best
 
@@ -238,7 +250,8 @@ for char_id, info in ops_raw.items():
     slots = info.get('slots', [])
     for elite in [0, 1, 2]:
         total_prod = 0.0
-        non_fac_prod = 0.0  # 不含设施加成的产能(用于配合意识)
+        total_wh = 0    # 仓库容量合计
+        non_fac_prod = 0.0
         details = []
         coop_needs = []
         skill_classes = []
@@ -251,6 +264,7 @@ for char_id, info in ops_raw.items():
                     details.append(f'S{slot["slotIndex"]}:{best["buffName"]}(动态)')
                 else:
                     total_prod += best['prod']
+                    total_wh += best.get('warehouse', 0)
                     is_fac = best.get('category') == '设施数量'
                     if not is_fac:
                         non_fac_prod += best['prod']
@@ -266,6 +280,7 @@ for char_id, info in ops_raw.items():
                 'total_prod': total_prod,
                 'base_prod': total_prod,
                 'non_fac_prod': non_fac_prod,
+                'total_wh': total_wh,
                 'details': ' + '.join(details) if details else f'(需COOP)',
                 'coop_needs': coop_needs,
                 'skill_classes': skill_classes,
@@ -357,7 +372,24 @@ def resolve_trio(trio):
                         other_non_fac += other.get('non_fac_prod', 0)
                     bonus = min(int(other_non_fac / 5) * 5, 40)
             elif dtype == 'zero_out_per_op':
-                bonus = 3 * 10.0  # 3人×10%
+                bonus = 3 * 10.0
+            elif dtype == 'wh_to_prod_2pct':
+                # #92 回收利用: 所有干员仓库合计 × 2% (如与#87冲突则失效)
+                has_tiered = any(
+                    ds2.get('dynamic_type') == 'wh_to_prod_tiered'
+                    for other in trio for ds2 in other.get('dynamic_slots', [])
+                )
+                if not has_tiered:
+                    total_wh = sum(other.get('total_wh', 0) for other in trio)
+                    bonus = total_wh * 2.0
+            elif dtype == 'wh_to_prod_tiered':
+                # #87 大就是好！: 每干员自身仓库阶梯计算, 优先生效
+                for other in trio:
+                    wh = other.get('total_wh', 0)
+                    if wh <= 16:
+                        bonus += wh * 1
+                    else:
+                        bonus += 16 * 1 + (wh - 16) * 3
             final_prods[i] += bonus
 
     return sum(final_prods), final_prods
