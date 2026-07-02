@@ -12,7 +12,7 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 # ============================================================
 # 配置
 # ============================================================
-VERSION = 3                    # 当前版本号
+VERSION = 6                    # 当前版本号
 HOURS = float(sys.argv[1]) if len(sys.argv) > 1 else 12.0
 
 # 基建配置
@@ -27,6 +27,9 @@ CATEGORIES = {
     1: {'纯数值'},
     2: {'纯数值', '渐进加成'},
     3: {'纯数值', '渐进加成', '设施数量'},
+    4: {'纯数值', '渐进加成', '设施数量', 'COOP同站'},
+    5: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成'},
+    6: {'纯数值', '渐进加成', '设施数量', 'COOP同站', '小队加成', '技能联动'},
 }
 
 IMPLEMENTED = CATEGORIES.get(VERSION, set())
@@ -50,7 +53,27 @@ for s in mfg_skills:
         'prod_per_facility': s.get('prod_per_facility'),
         'prod_per_dorm': s.get('prod_per_dorm'),
         'prod_per_training': s.get('prod_per_training'),
+        'coop_with': s.get('coop_with'),
     }
+
+# 建立 buffName → 中文名 的映射 (用于COOP判定)
+buff_to_cn = {}
+for s in mfg_skills:
+    for op in s['operators']:
+        if s['name'] not in buff_to_cn:
+            buff_to_cn[s['name']] = []
+        buff_to_cn[s['name']].append(op['name'])
+
+# 建立 charId → {elite: [buffNames]} 的完整技能表 (用于COOP反向查找)
+char_skills = {}
+for char_id, info in ops_raw.items():
+    char_skills[char_id] = {}
+    for slot in info['slots']:
+        for sk in slot['skills']:
+            e = sk['elite']
+            if e not in char_skills[char_id]:
+                char_skills[char_id][e] = []
+            char_skills[char_id][e].append(sk['buffName'])
 
 # ============================================================
 # 产能计算
@@ -134,58 +157,194 @@ def calc_slot_prod(slot_skills, elite, hours):
             continue
 
         # 计算产能
+        coop_requires = None
+        skill_class = meta.get('skill_class', 'other')
+        is_dynamic = False   # 需要枚举时计算的技能
+        dynamic_type = None
+
         if cat == '纯数值':
             prod = extract_prod(desc)
         elif cat == '渐进加成':
             prod = calc_ramp_avg(desc, hours)
         elif cat == '设施数量':
             prod = calc_facility_prod(meta)
+        elif cat == 'COOP同站':
+            prod = extract_prod(desc)
+            if prod:
+                coop_match = re.search(r'当与(.+?)在同一个制造站', desc)
+                if coop_match:
+                    coop_requires = coop_match.group(1).strip()
+        elif cat == '小队加成':
+            # #74 重聚时光: 每个A1小队干员+10%, 包括自身
+            is_dynamic = True
+            dynamic_type = 'a1_squad'
+            prod = 0  # 基础为0, 枚举时计算
+        elif cat == '技能联动':
+            if '配合意识' in name or '每5%生产力' in desc:
+                # #46: 其他干员每5%产能→+5%, max+40%
+                is_dynamic = True
+                dynamic_type = 'synergy_multiply'
+                prod = 0
+            elif '每个' in desc and '类技能' in desc:
+                # #27 #69 #70: 每个X类技能+5%
+                is_dynamic = True
+                dynamic_type = 'per_skill_class'
+                prod = 0
+            else:
+                prod = extract_prod(desc)  # fallback
         else:
             prod = None
 
-        if prod is None or prod <= 0:
+        if prod is None:
+            continue
+        if prod <= 0 and not is_dynamic:  # 动态技能允许prod=0
             continue
 
         if best is None or sk['elite'] >= best['elite']:
-            best = {**sk, 'prod': prod, 'recipe': recipe, 'category': cat}
+            best = {**sk, 'prod': prod, 'recipe': recipe, 'category': cat,
+                    'coop_requires': coop_requires, 'skill_class': skill_class,
+                    'is_dynamic': is_dynamic, 'dynamic_type': dynamic_type}
 
     return best
 
 # ============================================================
 # 汇总所有干员
 # ============================================================
+# A1小队成员
+A1_SQUAD = {'芬', '克洛丝', '米格鲁', '炎熔', '芙蓉', '历阵锐枪芬', '寒芒克洛丝'}
+char_cn = {}
+for char_id, info in ops_raw.items():
+    for slot in info['slots']:
+        for sk in slot['skills']:
+            names = buff_to_cn.get(sk['buffName'], [])
+            if names:
+                char_cn[char_id] = names[0]
+                break
+        if char_id in char_cn:
+            break
+
 candidates = []
 
 for char_id, info in ops_raw.items():
+    cn_name = char_cn.get(char_id, char_id)
     slots = info.get('slots', [])
     for elite in [0, 1, 2]:
         total_prod = 0.0
+        non_fac_prod = 0.0  # 不含设施加成的产能(用于配合意识)
         details = []
+        coop_needs = []
+        skill_classes = []
+        dynamic_slots = []
         for slot in slots:
             best = calc_slot_prod(slot['skills'], elite, HOURS)
             if best:
-                total_prod += best['prod']
-                details.append(f'S{slot["slotIndex"]}:{best["buffName"]}({best["prod"]:+.0f}%)')
-        if total_prod > 0:
+                if best.get('is_dynamic'):
+                    dynamic_slots.append(best)
+                    details.append(f'S{slot["slotIndex"]}:{best["buffName"]}(动态)')
+                else:
+                    total_prod += best['prod']
+                    is_fac = best.get('category') == '设施数量'
+                    if not is_fac:
+                        non_fac_prod += best['prod']
+                    tag = '[设]' if is_fac else ''
+                    details.append(f'S{slot["slotIndex"]}:{best["buffName"]}{tag}({best["prod"]:+.0f}%)')
+                if best.get('coop_requires'):
+                    coop_needs.append(best['coop_requires'])
+                if best.get('skill_class') and best['skill_class'] != 'other':
+                    skill_classes.append(best['skill_class'])
+        if total_prod > 0 or coop_needs or dynamic_slots:
             candidates.append({
-                'charId': char_id, 'elite': elite,
+                'charId': char_id, 'cn_name': cn_name, 'elite': elite,
                 'total_prod': total_prod,
-                'details': ' + '.join(details),
+                'base_prod': total_prod,
+                'non_fac_prod': non_fac_prod,
+                'details': ' + '.join(details) if details else f'(需COOP)',
+                'coop_needs': coop_needs,
+                'skill_classes': skill_classes,
+                'dynamic_slots': dynamic_slots,
+                'is_a1': cn_name in A1_SQUAD,
             })
 
-# 去重
+# 去重: 每干员取最高产能, 平局时取高精英(动态技能多)
 best_op = {}
 for c in candidates:
     k = c['charId']
-    if k not in best_op or c['total_prod'] > best_op[k]['total_prod']:
+    if k not in best_op:
         best_op[k] = c
+    elif c['total_prod'] > best_op[k]['total_prod']:
+        best_op[k] = c
+    elif c['total_prod'] == best_op[k]['total_prod']:
+        # 平局时: 选精英更高或有动态技能的
+        if c['elite'] > best_op[k]['elite']:
+            best_op[k] = c
+        elif c.get('dynamic_slots') and not best_op[k].get('dynamic_slots'):
+            best_op[k] = c
 operators = sorted(best_op.values(), key=lambda x: -x['total_prod'])
 
-# 枚举
+# ============================================================
+# 枚举 + 动态技能判定
+# ============================================================
+def resolve_trio(trio):
+    """给定三人组, 解析所有动态技能, 返回总产能"""
+    trio_names = {op['cn_name'] for op in trio}
+
+    # 先解析COOP
+    resolved_prod = []
+    for op in trio:
+        prod = op['base_prod']
+        for need in op.get('coop_needs', []):
+            if need not in trio_names:
+                prod = 0  # COOP失败, 基础产能归零
+                break
+        resolved_prod.append(prod)
+
+    # 统计 A1 人数 (用于重聚时光)
+    a1_count = sum(1 for op in trio if op.get('is_a1'))
+
+    # 统计各类技能数量 (用于技能联动)
+    class_counts = {}
+    for op in trio:
+        for sc in op.get('skill_classes', []):
+            class_counts[sc] = class_counts.get(sc, 0) + 1
+
+    # 解析动态技能
+    final_prods = list(resolved_prod)
+    for i, op in enumerate(trio):
+        for ds in op.get('dynamic_slots', []):
+            dtype = ds.get('dynamic_type')
+            bonus = 0
+            if dtype == 'a1_squad':
+                bonus = a1_count * 10.0  # 每个A1成员+10%
+            elif dtype == 'per_skill_class':
+                # 从描述中提取目标技能类别
+                desc = ds.get('description', '')
+                target_class = None
+                if '金属工艺' in desc:
+                    target_class = 'metal'
+                elif '莱茵科技' in desc:
+                    target_class = 'rhine'
+                elif '标准化' in desc:
+                    target_class = 'standard'
+                if target_class:
+                    count = class_counts.get(target_class, 0)
+                    bonus = count * 5.0
+            elif dtype == 'synergy_multiply':
+                # #46 配合意识: 其他干员每5%非设施产能→+5%, max+40%
+                other_non_fac = 0
+                for j, other in enumerate(trio):
+                    if j == i:
+                        continue
+                    other_non_fac += other.get('non_fac_prod', 0)
+                bonus = min(int(other_non_fac / 5) * 5, 40)
+            final_prods[i] += bonus
+
+    return sum(final_prods), final_prods
+
 results = []
 for trio in combinations(operators, 3):
-    total = sum(op['total_prod'] for op in trio)
-    results.append({'total': total, 'ops': trio})
+    total, _ = resolve_trio(trio)
+    if total > 0:
+        results.append({'total': total, 'ops': trio})
 results.sort(key=lambda x: -x['total'])
 
 # ============================================================
@@ -226,8 +385,17 @@ out.append(f'{"排名":<5} {"总产能":<8} {"组合"}')
 out.append('-' * 70)
 
 for rank, r in enumerate(results[:20], 1):
-    names = ' + '.join(f'{op["charId"]}(E{op["elite"]})' for op in r['ops'])
-    detail = ' | '.join(f'{op["details"]} = {op["total_prod"]:+.0f}%' for op in r['ops'])
+    total, resolved = resolve_trio(r['ops'])
+    cn = lambda op: op.get('cn_name', op['charId'])
+    names = ' + '.join(f'{cn(op)}(E{op["elite"]})' for op in r['ops'])
+    parts = []
+    for i, op in enumerate(r['ops']):
+        bonus = resolved[i] - op['base_prod']
+        if bonus > 0:
+            parts.append(f'{cn(op)}:{op["base_prod"]:+.0f}%+{bonus:+.0f}%')
+        else:
+            parts.append(f'{cn(op)}:{resolved[i]:+.0f}%')
+    detail = ' | '.join(parts)
     out.append(f'{rank:<5} {r["total"]:+.0f}%     {names}')
     out.append(f'       → {detail}')
 
