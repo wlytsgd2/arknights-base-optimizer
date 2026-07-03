@@ -495,15 +495,57 @@ def run_pipeline(max_iter=3):
 
 
 def _build_final(world):
-    """汇总最终排班"""
-    final = {'trading': [], 'gold': [], 'exp': [], 'control': []}
-    for st in world.baseline.get('trading', []):
-        final['trading'].append({'ops': [cn_name(op['charId'], load_all_data()) for op in st['ops']], 'score': st['score']})
-    for st in world.baseline.get('gold', []):
-        final['gold'].append({'ops': [cn_name(op['charId'], load_all_data()) for op in st['ops']], 'prod': st['total']})
-    for st in world.baseline.get('exp', []):
-        final['exp'].append({'ops': [cn_name(op['charId'], load_all_data()) for op in st['ops']], 'prod': st['total']})
-    final['control'] = world.control_buffs.get('best_5', [])
+    """汇总最终排班 + 计算实际产出"""
+    data = load_all_data()
+    cb = world.control_buffs
+    trade_buff = cb.get('trade_efficiency', 0)
+    mfg_buff = cb.get('mfg_productivity', 0)
+
+    def _name(op): return cn_name(op['charId'], data)
+
+    final = {'trading': [], 'gold': [], 'exp': [], 'control': [], 'summary': {}}
+
+    # 贸易站
+    trading_scores = []
+    for i, st in enumerate(world.baseline.get('trading', [])):
+        names = [_name(op) for op in st['ops']]
+        score = st['score']
+        eff = st.get('eff', 0)
+        lim = st.get('lim', 0)
+        trading_scores.append(score)
+        final['trading'].append({
+            'station': chr(65+i), 'ops': names,
+            'score': score, 'eff': 100 + eff + trade_buff, 'lim': 10 + lim,
+        })
+
+    # 制造站 gold
+    gold_total = 0
+    for i, st in enumerate(world.baseline.get('gold', [])):
+        names = [_name(op) for op in st['ops']]
+        prod = st['total'] + mfg_buff
+        gold_total += prod
+        final['gold'].append({'station': chr(65+i), 'ops': names, 'prod': prod})
+
+    # 制造站 exp
+    exp_total = 0
+    for i, st in enumerate(world.baseline.get('exp', [])):
+        names = [_name(op) for op in st['ops']]
+        prod = st['total'] + mfg_buff
+        exp_total += prod
+        final['exp'].append({'station': chr(65+i), 'ops': names, 'prod': prod})
+
+    # 中枢
+    final['control'] = cb.get('best_5', [])
+
+    # 总产出
+    final['summary'] = {
+        'trading_total_score': sum(trading_scores),
+        'gold_total_prod': gold_total,
+        'exp_total_prod': exp_total,
+        'trade_buff': trade_buff,
+        'mfg_buff': mfg_buff,
+        'intermediates': getattr(world, 'intermediates', {}),
+    }
     return final
 
 
@@ -553,11 +595,21 @@ if __name__ == '__main__':
 
     print()
     print('=== 最终排班 ===')
-    for key, stations in world.final.items():
-        if key == 'control':
-            print('  中枢:')
-            for op in stations:
-                print('    {}(E{})'.format(op['name'], op['elite']))
-        else:
-            for i, st in enumerate(stations):
-                print('  {}_{}: {}'.format(key, chr(65+i), ' + '.join(st['ops'])))
+    final = world.final
+    for key in ['trading', 'gold', 'exp']:
+        for st in final.get(key, []):
+            extra = ''
+            if key == 'trading':
+                extra = ' 效率={}% 上限={}'.format(st['eff'], st['lim'])
+            elif key in ('gold', 'exp'):
+                extra = ' 产能={:.1f}%'.format(st['prod'])
+            print('  {}_{}: {} {}'.format(key, st['station'], ' + '.join(st['ops']), extra))
+    print('  中枢:')
+    for op in final.get('control', []):
+        print('    {}(E{})'.format(op['name'], op['elite']))
+    print()
+    s = final.get('summary', {})
+    print('  制造总产能: Gold={:.1f}%  Exp={:.1f}%'.format(s.get('gold_total_prod', 0), s.get('exp_total_prod', 0)))
+    print('  贸易总评分: {}'.format(s.get('trading_total_score', 0)))
+    print('  中枢buff: 贸+{:.0f}% 制+{:.0f}%'.format(s.get('trade_buff', 0), s.get('mfg_buff', 0)))
+    print('  中间产物: {}'.format(s.get('intermediates', {})))
