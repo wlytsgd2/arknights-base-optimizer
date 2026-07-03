@@ -108,7 +108,8 @@ def layer0_baseline(data):
 
     # --- 贸易站 ×2 ---
     from trading_solver import solve_trading_standalone
-    tr_results, tr_ops = solve_trading_standalone(data, exclude=used)
+    gold_lines = 2  # 两个赤金站
+    tr_results, tr_ops = solve_trading_standalone(data, exclude=used, gold_lines=gold_lines)
     stations = []
     for r in tr_results:
         trio_used = any(op['charId'] in used for op in r['ops'])
@@ -123,17 +124,16 @@ def layer0_baseline(data):
 
 
 def _score_trading_trio(trio):
-    """贸易站三人组评分, 适配 trading_solver 的 operator 结构"""
+    """贸易站三人组评分"""
     base_eff = 100; base_lim = 10
     total_eff = 0; total_lim = 0
     trio_names = {op.get('cn_name', op['charId']) for op in trio}
     for op in trio:
-        eff = op.get('total_eff', 0); lim = op.get('total_lim', 0)
-        # COOP check
+        eff = op.get('total_eff', 0); lim = op.get('total_limit', 0)
         for need in op.get('coop_needs', []):
             if need not in trio_names:
                 eff = op.get('total_eff_nc', eff)
-                lim = op.get('total_lim_nc', lim)
+                lim = op.get('total_limit_nc', lim)
                 break
         total_eff += eff; total_lim += lim
     return (base_eff + total_eff) * (base_lim + total_lim)

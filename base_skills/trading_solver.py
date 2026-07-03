@@ -160,16 +160,105 @@ results.sort(key=lambda x: -x['score'])
 
 
 # === 对外接口 (供 world_state.py 调用) ===
-def solve_trading_standalone(data, exclude=None):
-    """返回 (results, operators)"""
+def solve_trading_standalone(data, exclude=None, gold_lines=2):
+    """返回 (results, operators)。gold_lines: 赤金生产线数(默认2)"""
     excl = exclude or set()
-    filtered = [op for op in operators if op['charId'] not in excl]
+    # 重新算一遍candidates, 因为赤金联动加成依赖gold_lines
+    candidates_with_bonus = _rebuild_candidates_with_gold_lines(data, gold_lines, excl)
+    filtered = [c for c in candidates_with_bonus if c['charId'] not in excl]
     res = []
     for trio in combinations(filtered, 3):
         s, eff, lim = score_trio(trio)
         res.append({'score': s, 'eff': eff, 'lim': lim, 'ops': trio})
     res.sort(key=lambda x: -x['score'])
     return res, filtered
+
+
+def _rebuild_candidates_with_gold_lines(data, gold_lines, exclude):
+    """重建候选, 计入赤金联动加成"""
+    ops_raw = data['all_facility_skills']['operators']
+    buffs = data['all_facility_skills']['buffs']
+    # cn lookup
+    ct = data.get('char_table', {})
+    def _cn(cid):
+        if cid in ct and isinstance(ct[cid], dict): return ct[cid].get('name', cid)
+        return cid
+
+    candidates = []
+    for char_id, info in ops_raw.items():
+        if char_id in (exclude or set()): continue
+        cn = _cn(char_id)
+        for elite in [0, 1, 2]:
+            total_eff = 0; total_lim = 0
+            total_eff_nc = 0; total_lim_nc = 0
+            details = []; coop_needs = []
+            for slot in info.get('slots', []):
+                best_eff = 0; best_lim = 0; best_coop = None; best_name = ''
+                best_eff_nc = 0; best_lim_nc = 0
+                for sk in slot['skills']:
+                    eff, lim, coop, name, valid = _parse_trading_skill(sk, elite, buffs)
+                    if not valid: continue
+                    # 赤金联动加成
+                    gold_bonus = _calc_gold_line_bonus(sk, buffs, gold_lines)
+                    eff += gold_bonus
+                    if eff + lim * 3 > best_eff + best_lim * 3:
+                        best_eff, best_lim, best_coop, best_name = eff, lim, coop, name
+                    if not coop and eff + lim * 3 > best_eff_nc + best_lim_nc * 3:
+                        best_eff_nc, best_lim_nc = eff, lim
+                if best_name:
+                    total_eff += best_eff; total_lim += best_lim
+                    total_eff_nc += best_eff_nc; total_lim_nc += best_lim_nc
+                    details.append('S{}:{} eff{} lim{}'.format(slot['slotIndex'], best_name, best_eff, best_lim))
+                    if best_coop: coop_needs.append(best_coop)
+            if details:
+                candidates.append({
+                    'charId': char_id, 'cn_name': cn, 'elite': elite,
+                    'total_eff': total_eff, 'total_limit': total_lim,
+                    'total_eff_nc': total_eff_nc, 'total_limit_nc': total_lim_nc,
+                    'details': ' | '.join(details), 'coop_needs': coop_needs,
+                })
+
+    best_op = {}
+    for c in candidates:
+        k = c['charId']; s = c['total_eff_nc'] + c['total_limit_nc'] * 3
+        if k not in best_op: best_op[k] = (s, c)
+        elif s > best_op[k][0]: best_op[k] = (s, c)
+    return [v[1] for v in best_op.values()]
+
+
+def _parse_trading_skill(sk, elite, buffs):
+    """解析单个技能, 返回 (eff, lim, coop, name, valid)"""
+    if sk['elite'] > elite: return 0, 0, None, '', False
+    if sk['roomType'] != 'TRADING': return 0, 0, None, '', False
+    buff = buffs.get(sk['buffId'], {})
+    desc = re.sub(r'<[^>]+>', '', buff.get('description', sk.get('description', '')))
+    name = buff.get('name', sk['buffName'])
+    skip_kw = ['品质', '违约', '特别订单', '独家', '人间烟火', '感知信息', '木天蓼', '魔物料理', '思维链环', '工程机器人']
+    if any(kw in desc for kw in skip_kw): return 0, 0, None, '', False
+    eff = 0; lim = 0
+    m = re.search(r'订单获取效率([+-]\d+)%', desc)
+    if m: eff = int(m.group(1))
+    m = re.search(r'订单上限([+-]\d+)', desc)
+    if m: lim = int(m.group(1))
+    coop = None
+    cm = re.search(r'当与(.+?)在同一(?:个)?贸易站', desc)
+    if cm: coop = cm.group(1).strip()
+    return eff, lim, coop, name, True
+
+
+def _calc_gold_line_bonus(sk, buffs, gold_lines):
+    """计算赤金联动加成"""
+    buff = buffs.get(sk['buffId'], {})
+    desc = re.sub(r'<[^>]+>', '', buff.get('description', sk.get('description', '')))
+    bonus = 0
+    if '赤金生产线' in desc:
+        if '每有4条' in desc:
+            bonus = (gold_lines // 4) * 15
+        elif '每有2条' in desc:
+            bonus = (gold_lines // 2) * 15
+        elif '每有1条' in desc:
+            bonus = gold_lines * 5
+    return bonus
 
 
 # === 输出 ===
