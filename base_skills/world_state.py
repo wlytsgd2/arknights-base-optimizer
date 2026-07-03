@@ -398,6 +398,29 @@ def layer4c_compute_products(world, data):
     return world
 
 
+def layer4c_apply_consumption(world, data):
+    """将中间产物应用到下游: 制造站产能修正, 贸易站效率修正"""
+    im = world.intermediates
+    if not im: return world
+
+    # 制造站修正 (注入到 control_buffs)
+    mfg_extra = 0.0
+    mfg_extra += im.get('renjian_yanhuo', 0) / 3.0 * 1.0    # 稻禾厚: 3点→+1%
+    mfg_extra += im.get('ganzhi_xinxi', 0) / 2.0 * 1.0      # 念力: 2点→+1%
+    mfg_extra += im.get('mutianliao', 0) * 1.0              # 可靠随从: 1点→+1%
+    # 热情值在 layer2 已处理(丰富工作经验), 乌萨斯特饮→仓库(不影响产能)
+
+    # 贸易站修正
+    trade_extra = 0.0
+    trade_extra += im.get('renjian_yanhuo', 0) * 1.0         # 愿者上钩: 1点→+1%
+    trade_extra += im.get('mutianliao', 0) * 3.0             # 艾露猫: 1点→+3%
+
+    cb = world.control_buffs
+    cb['trade_efficiency'] = cb.get('trade_efficiency', 0) + trade_extra
+    cb['mfg_productivity'] = cb.get('mfg_productivity', 0) + mfg_extra
+    return world
+
+
 def layer3_inject(world, data):
     """将中枢buff注入下游设施, 重算排名。全局buff不改变排名。"""
     cb = world.control_buffs
@@ -450,18 +473,10 @@ def run_pipeline(max_iter=3):
     for iteration in range(max_iter):
         world = layer2_control(world, data)
         world, changed = layer3_inject(world, data)
-        # 层4c: 计算产品价值
+        # 层4c: 计算产品 + 应用到下游
         world = layer4c_compute_products(world, data)
-        im = world.intermediates
-        # 将产品价值反馈到下游
-        added_trade = im.get('renjian_yanhuo', 0) * 1.0
-        added_mfg = im.get('reqingzhi', 0) // 20 * 0.5
-        # 重新注入 (包含产品来源的额外buff)
-        if added_trade > 0 or added_mfg > 0:
-            cb = world.control_buffs
-            cb['trade_efficiency'] += added_trade
-            cb['mfg_productivity'] += added_mfg
-            world, _ = layer3_inject(world, data)
+        world = layer4c_apply_consumption(world, data)
+        world, _ = layer3_inject(world, data)  # 用更新后的buff重算
         if not changed:
             print('  迭代{}: 收敛'.format(iteration + 1))
             break
