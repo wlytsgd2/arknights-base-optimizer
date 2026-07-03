@@ -211,16 +211,24 @@ def layer2_control(world, data):
                     # 制造全局生产力
                     if '制造站' in desc and '生产力' in desc and '红松' not in name:
                         if '贵金属' in desc:
-                            pm = re.search(r'\+(\d+\.?\d*)%', desc)
+                            pm = re.search(r'制造站生产力\+(\d+\.?\d*)%', desc)
                             if pm: g = float(pm.group(1))
+                            else:
+                                pm2 = re.search(r'生产力\+(\d+\.?\d*)%', desc)
+                                if pm2 and '贵金属' in desc: g = float(pm2.group(1))
                         elif '龙门近卫局' in desc:
-                            # 共事情谊: 需龙门近卫局在制造站
                             if _has_faction_in_set('龙门近卫局', mfg_ops, data):
-                                pm = re.search(r'\+(\d+)%', desc)
+                                pm = re.search(r'生产力\+(\d+)%', desc)
                                 if pm: m = float(pm.group(1))
                         else:
-                            pm = re.search(r'\+(\d+)%', desc)
-                            if pm: m = float(pm.group(1))
+                            # 制造站全局: 只匹配 "制造站生产力+N%" 避免误匹配贸易
+                            pm = re.search(r'制造站生产力\+(\d+)%', desc)
+                            if pm:
+                                m = float(pm.group(1))
+                            else:
+                                # 权变: "所有制造站生产力+2%"
+                                pm2 = re.search(r'制造站.*?\+(\d+)%', desc)
+                                if pm2: m = float(pm2.group(1))
 
                     # 条件性: 家族认可 (叙拉古在贸易站)
                     if '叙拉古' in desc and '贸易站' in desc:
@@ -341,12 +349,79 @@ def _extract_pct(s):
 # 管线入口
 # ============================================================
 
-def run_pipeline():
+def layer3_inject(world, data):
+    """将中枢buff注入下游设施, 重算排名。全局buff不改变排名。"""
+    cb = world.control_buffs
+    trade_buff = cb.get('trade_efficiency', 0)
+    mfg_buff = cb.get('mfg_productivity', 0)
+    gold_buff = cb.get('gold_productivity', 0)
+
+    adjusted = {}
+
+    # 贸易站: buff直接加到效率上
+    for i, st in enumerate(world.baseline.get('trading', [])):
+        orig_score = st['score']
+        # 重算: (100+eff+trade_buff) × (10+lim)
+        total_eff = st.get('eff', 0) + trade_buff
+        total_lim = st.get('lim', 0)
+        new_score = (100 + total_eff) * (10 + total_lim)
+        adjusted['trading_{}'.format(chr(65+i))] = {
+            'score_before': orig_score,
+            'score_after': new_score,
+            'delta': new_score - orig_score,
+        }
+
+    # 制造站gold: buff加到产能上
+    for i, st in enumerate(world.baseline.get('gold', [])):
+        orig = st['total']
+        new = orig + mfg_buff + gold_buff
+        adjusted['gold_{}'.format(chr(65+i))] = {
+            'prod_before': orig, 'prod_after': new, 'delta': new - orig,
+        }
+
+    # 经验站: 制造buff也适用
+    for i, st in enumerate(world.baseline.get('exp', [])):
+        orig = st['total']
+        new = orig + mfg_buff
+        adjusted['exp_{}'.format(chr(65+i))] = {
+            'prod_before': orig, 'prod_after': new, 'delta': new - orig,
+        }
+
+    world.adjusted = adjusted
+    # 检测排名变化
+    changed = any(a.get('delta', 0) != trade_buff * 0 for a in adjusted.values())
+    return world, changed
+
+
+def run_pipeline(max_iter=3):
     data = load_all_data()
     world = layer0_baseline(data)
     world = layer1_snapshot(world, data)
-    world = layer2_control(world, data)
+
+    for iteration in range(max_iter):
+        world = layer2_control(world, data)
+        world, changed = layer3_inject(world, data)
+        if not changed:
+            print('  迭代{}: 收敛 (排名未变)'.format(iteration + 1))
+            break
+        print('  迭代{}: 排名变化, 重新提取快照...'.format(iteration + 1))
+        world = layer1_snapshot(world, data)
+
+    world.final = _build_final(world)
     return world
+
+
+def _build_final(world):
+    """汇总最终排班"""
+    final = {'trading': [], 'gold': [], 'exp': [], 'control': []}
+    for st in world.baseline.get('trading', []):
+        final['trading'].append({'ops': [cn_name(op['charId'], load_all_data()) for op in st['ops']], 'score': st['score']})
+    for st in world.baseline.get('gold', []):
+        final['gold'].append({'ops': [cn_name(op['charId'], load_all_data()) for op in st['ops']], 'prod': st['total']})
+    for st in world.baseline.get('exp', []):
+        final['exp'].append({'ops': [cn_name(op['charId'], load_all_data()) for op in st['ops']], 'prod': st['total']})
+    final['control'] = world.control_buffs.get('best_5', [])
+    return final
 
 
 if __name__ == '__main__':
@@ -376,3 +451,21 @@ if __name__ == '__main__':
     print('  最优5人:')
     for op in cb.get('best_5', []):
         print('    {}(E{}) [{}]'.format(op['name'], op['elite'], op['details']))
+
+    print()
+    print('=== 层3: buff注入 ===')
+    for key, val in world.adjusted.items():
+        print('  {}: {} → {} ({:+.1f})'.format(key, val.get('score_before', val.get('prod_before', 0)),
+                                               val.get('score_after', val.get('prod_after', 0)),
+                                               val.get('delta', 0)))
+
+    print()
+    print('=== 最终排班 ===')
+    for key, stations in world.final.items():
+        if key == 'control':
+            print('  中枢:')
+            for op in stations:
+                print('    {}(E{})'.format(op['name'], op['elite']))
+        else:
+            for i, st in enumerate(stations):
+                print('  {}_{}: {}'.format(key, chr(65+i), ' + '.join(st['ops'])))
