@@ -28,13 +28,19 @@ def solve_trading(exclude=None):
     buffs = data['buffs']
     exclude = exclude or set()
 
-    # charId → 中文名
+    # charId → 中文名 (优先用 char_table.json)
+    char_cn = {}
+    with open(os.path.join(DIR, '..', 'char_table.json'), 'r', encoding='utf-8') as f:
+        ct = json.load(f)
+    for cid in ct:
+        if isinstance(ct[cid], dict):
+            char_cn[cid] = ct[cid].get('name', cid)
+    # 补漏: manufacturing_skills.json
     buff_to_names = {}
     for s in mfg_skills:
         buff_to_names[s['name']] = [op['name'] for op in s['operators']]
-
-    char_cn = {}
     for char_id, info in ops_raw.items():
+        if char_id in char_cn: continue
         for slot in info.get('slots', []):
             for sk in slot['skills']:
                 buff = buffs.get(sk['buffId'], {})

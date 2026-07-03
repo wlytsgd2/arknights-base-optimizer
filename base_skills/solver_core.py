@@ -206,13 +206,25 @@ def solve(room='MANUFACTURE', recipe='gold', hours=12, categories=None):
 # ============================================================
 # 内部辅助
 # ============================================================
+# 全局 charId→中文名 映射
+_CHAR_CN = {}
+def _load_char_names():
+    global _CHAR_CN
+    if _CHAR_CN: return
+    ct_path = os.path.join(DIR, '..', 'char_table.json')
+    if os.path.exists(ct_path):
+        with open(ct_path, 'r', encoding='utf-8') as f:
+            ct = json.load(f)
+        for cid in ct:
+            if isinstance(ct[cid], dict):
+                _CHAR_CN[cid] = ct[cid].get('name', cid)
+
 def _get_cn_name(info, data):
-    for slot in info.get('slots', []):
-        for sk in slot['skills']:
-            buff = data['buffs'].get(sk['buffId'], {})
-            # 无法直接从 buff 获取中文名, 用 charId 代替
-            pass
-    return info['charId']
+    _load_char_names()
+    cid = info['charId']
+    if cid in _CHAR_CN:
+        return _CHAR_CN[cid]
+    return cid
 
 def _slot_best(slot_skills, elite, room, recipe, hours, categories, data):
     """取某个槽位在指定条件下的最优技能"""
