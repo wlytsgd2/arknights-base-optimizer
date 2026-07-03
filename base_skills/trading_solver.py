@@ -159,6 +159,19 @@ for trio in combinations(operators, 3):
 results.sort(key=lambda x: -x['score'])
 
 
+# === 对外接口 (供 world_state.py 调用) ===
+def solve_trading_standalone(data, exclude=None):
+    """返回 (results, operators)"""
+    excl = exclude or set()
+    filtered = [op for op in operators if op['charId'] not in excl]
+    res = []
+    for trio in combinations(filtered, 3):
+        s, eff, lim = score_trio(trio)
+        res.append({'score': s, 'eff': eff, 'lim': lim, 'ops': trio})
+    res.sort(key=lambda x: -x['score'])
+    return res, filtered
+
+
 # === 输出 ===
 cn = lambda op: op.get('cn_name', op['charId'])
 coop_count = sum(1 for op in operators if op['coop_needs'])
