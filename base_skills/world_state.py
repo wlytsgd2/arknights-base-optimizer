@@ -219,11 +219,12 @@ def layer2_control(world, data):
             mfg_bonus = 0.0     # 制造全局生产力 (同种取最高)
             gold_bonus = 0.0    # 贵金属制造站生产力
             cond_bonuses = []   # 条件性加成 (每个单独生效)
+            intermediates = []  # 中间产物
             details = []
 
             for slot in info.get('slots', []):
                 best_t = 0; best_m = 0; best_g = 0; best_name = ''
-                best_conds = []
+                best_conds = []; best_inter = []
                 for sk in slot['skills']:
                     if sk['elite'] > elite: continue
                     b = buffs.get(sk['buffId'], {})
@@ -231,7 +232,7 @@ def layer2_control(world, data):
                     desc = re.sub(r'<[^>]+>', '', b.get('description', ''))
                     name = b.get('name', '')
 
-                    t = 0; m = 0; g = 0; conds = []
+                    t = 0; m = 0; g = 0; conds = []; inter = []
 
                     # 贸易全局效率
                     if '所有贸易站' in desc and '订单效率' in desc:
@@ -288,20 +289,22 @@ def layer2_control(world, data):
                             em = re.search(r'\+(\d+)%', desc)
                             if em: conds.append('谢拉格≥3→+{}%'.format(int(em.group(1))))
 
-                    score = t + m + g + sum(_extract_pct(str(c)) for c in conds)
-                    best_score = best_t + best_m + best_g
+                    score = t + m + g + len(inter) * 50 + sum(_extract_pct(str(c)) for c in conds)
+                    best_score = best_t + best_m + best_g + len(best_inter) * 50
                     if score > best_score:
-                        best_t, best_m, best_g, best_name, best_conds = t, m, g, name, conds
+                        best_t, best_m, best_g, best_name, best_conds, best_inter = t, m, g, name, conds, inter
 
                 if best_name:
                     trade_bonus = max(trade_bonus, best_t)
                     mfg_bonus = max(mfg_bonus, best_m)
                     gold_bonus = max(gold_bonus, best_g)
                     cond_bonuses.extend(best_conds)
+                    intermediates.extend(best_inter)
                     tags = []
                     if best_t > 0: tags.append('贸+{}%'.format(int(best_t)))
                     if best_m > 0: tags.append('制+{}%'.format(int(best_m)))
                     if best_g > 0: tags.append('金+{}%'.format(best_g))
+                    if best_inter: tags.append('产:{}'.format(','.join(best_inter)))
                     if best_conds: tags.extend(best_conds)
                     details.append('S{}:{} ({})'.format(slot['slotIndex'], best_name, ', '.join(tags)))
 
@@ -310,14 +313,17 @@ def layer2_control(world, data):
                     'charId': cid, 'elite': elite,
                     'trade_bonus': trade_bonus, 'mfg_bonus': mfg_bonus,
                     'gold_bonus': gold_bonus, 'cond_bonuses': cond_bonuses,
+                    'intermediates': intermediates,
                     'details': ' | '.join(details),
                 })
 
-    # 去重: 每干员最优精英
+    # 去重: 每干员最优精英 (加入中间产物价值)
     best_op = {}
     for c in candidates:
         k = c['charId']
-        s = c['trade_bonus'] * 100 + c['mfg_bonus'] * 10 + c['gold_bonus'] * 5
+        # 中间产物价值估算
+        inter_score = len(c.get('intermediates', [])) * 50  # 产品价值(下游转化)
+        s = c['trade_bonus'] * 100 + c['mfg_bonus'] * 10 + c['gold_bonus'] * 5 + inter_score
         if k not in best_op or s > best_op[k][0]:
             best_op[k] = (s, c)
     operators = sorted(best_op.values(), key=lambda x: -x[0])
@@ -326,7 +332,7 @@ def layer2_control(world, data):
     from itertools import combinations
     best_set = None
     best_val = 0
-    for quint in combinations(operators[:min(12, len(operators))], 5):
+    for quint in combinations(operators[:min(20, len(operators))], 5):
         ops_list = [o[1] for o in quint]
         t = max(op['trade_bonus'] for op in ops_list)
         m = max(op['mfg_bonus'] for op in ops_list)
@@ -393,6 +399,69 @@ def _apply_faction_bonus(ops, faction_counts):
 # 管线入口
 # ============================================================
 
+# ============================================================
+# 层4c: 中间产物 (生成→消费)
+# ============================================================
+
+def layer4c_compute_products(world, data):
+    """根据中枢5人 assignment 计算中间产物生成量"""
+    cb = world.control_buffs
+    best_5 = cb.get('best_5', [])
+    if not best_5:
+        world.intermediates = {}
+        return world
+
+    # 生成量 (假设最优 mood 条件)
+    products = {
+        'renjian_yanhuo': 0,   # 人间烟火
+        'reqingzhi': 0,        # 热情值
+        'ganzhi_xinxi': 0,     # 感知信息
+        'mutianliao': 0,       # 木天蓼
+        'wusasi_teyin': 0,     # 乌萨斯特饮
+        'qingbao_chubei': 0,   # 情报储备
+    }
+
+    buffs = data['all_facility_skills']['buffs']
+    ops_raw = data['all_facility_skills']['operators']
+
+    for op_info in best_5:
+        cid = None
+        # Find charId from name (reverse lookup)
+        for c, info in ops_raw.items():
+            if cn_name(c, data) == op_info['name']:
+                cid = c; break
+        if not cid: continue
+
+        # Check this operator's skills for product generation
+        info = ops_raw.get(cid, {})
+        for slot in info.get('slots', []):
+            for sk in slot['skills']:
+                if sk['elite'] > op_info.get('elite', 2): continue
+                b = buffs.get(sk['buffId'], {})
+                if b.get('roomType', '') != 'CONTROL': continue
+                desc = re.sub(r'<[^>]+>', '', b.get('description', ''))
+                name = b.get('name', '')
+
+                if '人间烟火' in desc:
+                    if '15' in desc: products['renjian_yanhuo'] += 15
+                    elif '5' in desc: products['renjian_yanhuo'] += 5  # per 岁
+                if '热情值' in desc:
+                    if '10' in desc: products['reqingzhi'] += 10
+                    elif '1' in desc: products['reqingzhi'] += 20  # per dorm op estimate
+                if '感知信息' in desc:
+                    if '10' in desc: products['ganzhi_xinxi'] += 10
+                if '木天蓼' in desc:
+                    if '8' in desc: products['mutianliao'] += 8
+                    elif '2' in desc: products['mutianliao'] += 4
+                if '乌萨斯特饮' in desc:
+                    if '1' in desc: products['wusasi_teyin'] += 3
+                if '情报储备' in desc:
+                    if '1' in desc: products['qingbao_chubei'] += 2
+
+    world.intermediates = products
+    return world
+
+
 def layer3_inject(world, data):
     """将中枢buff注入下游设施, 重算排名。全局buff不改变排名。"""
     cb = world.control_buffs
@@ -451,6 +520,9 @@ def run_pipeline(max_iter=3):
         print('  迭代{}: 排名变化, 重新提取快照...'.format(iteration + 1))
         world = layer1_snapshot(world, data)
 
+    # 层4c: 中间产物
+    world = layer4c_compute_products(world, data)
+
     world.final = _build_final(world)
     return world
 
@@ -502,6 +574,15 @@ if __name__ == '__main__':
         print('  {}: {} → {} ({:+.1f})'.format(key, val.get('score_before', val.get('prod_before', 0)),
                                                val.get('score_after', val.get('prod_after', 0)),
                                                val.get('delta', 0)))
+
+    print()
+    print('=== 层4c: 中间产物 ===')
+    im = getattr(world, 'intermediates', {})
+    if im:
+        for k, v in im.items():
+            print('  {}: {}'.format(k, v))
+    else:
+        print('  (未计算)')
 
     print()
     print('=== 最终排班 ===')
