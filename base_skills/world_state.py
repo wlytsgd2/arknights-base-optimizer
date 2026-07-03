@@ -206,159 +206,89 @@ def layer2_control(world, data):
     """根据下游排班快照, 计算每个中枢干员的实际buff值, 选最优5人"""
     buffs = data['all_facility_skills']['buffs']
     ops_raw = data['all_facility_skills']['operators']
-    snap = world.snapshot
 
-    mfg_ops = snap['operators_in_mfg']  # 制造站干员 charId 集合
-    trade_ops = snap['operators_in_trade']  # 贸易站干员集合
-
-    # 评估每个中枢干员
     candidates = []
     for cid, info in ops_raw.items():
         for elite in [0, 1, 2]:
-            trade_bonus = 0.0   # 贸易全局效率 (同种取最高)
-            mfg_bonus = 0.0     # 制造全局生产力 (同种取最高)
-            gold_bonus = 0.0    # 贵金属制造站生产力
-            cond_bonuses = []   # 条件性加成 (每个单独生效)
-            intermediates = []  # 中间产物
-            details = []
-
+            trade_bonus = 0.0; mfg_bonus = 0.0; gold_bonus = 0.0
+            intermediates = []; details = []
             for slot in info.get('slots', []):
-                best_t = 0; best_m = 0; best_g = 0; best_name = ''
-                best_conds = []; best_inter = []
+                best_score = 0; best_t = 0; best_m = 0; best_g = 0
+                best_name = ''; best_inter = []
                 for sk in slot['skills']:
                     if sk['elite'] > elite: continue
                     b = buffs.get(sk['buffId'], {})
                     if b.get('roomType', '') != 'CONTROL': continue
-                    desc = re.sub(r'<[^>]+>', '', b.get('description', ''))
-                    name = b.get('name', '')
-
-                    t = 0; m = 0; g = 0; conds = []; inter = []
-
-                    # 贸易全局效率
+                    desc = b.get('description', ''); name = b.get('name', '')
+                    t = 0; m = 0; g = 0; inter = []
                     if '所有贸易站' in desc and '订单效率' in desc:
                         tm = re.search(r'\+(\d+)%', desc)
                         if tm: t = float(tm.group(1))
-
-                    # 制造全局生产力
-                    if '制造站' in desc and '生产力' in desc and '红松' not in name:
-                        if '贵金属' in desc:
-                            pm = re.search(r'制造站生产力\+(\d+\.?\d*)%', desc)
-                            if pm: g = float(pm.group(1))
+                    if '制造站' in desc and '生产力' in desc:
+                        if '红松' not in name:
+                            if '贵金属' in desc:
+                                pm = re.search(r'\+(\d+\.?\d*)%', desc)
+                                if pm: g = float(pm.group(1))
                             else:
-                                pm2 = re.search(r'生产力\+(\d+\.?\d*)%', desc)
-                                if pm2 and '贵金属' in desc: g = float(pm2.group(1))
-                        elif '龙门近卫局' in desc:
-                            if _has_faction_in_set('龙门近卫局', mfg_ops, data):
-                                pm = re.search(r'生产力\+(\d+)%', desc)
+                                pm = re.search(r'\+(\d+)%', desc)
                                 if pm: m = float(pm.group(1))
-                        else:
-                            # 制造站全局: 只匹配 "制造站生产力+N%" 避免误匹配贸易
-                            pm = re.search(r'制造站生产力\+(\d+)%', desc)
-                            if pm:
-                                m = float(pm.group(1))
-                            else:
-                                # 权变: "所有制造站生产力+2%"
-                                pm2 = re.search(r'制造站.*?\+(\d+)%', desc)
-                                if pm2: m = float(pm2.group(1))
-
-                    # 条件性: 家族认可 (叙拉古在贸易站)
-                    if '叙拉古' in desc and '贸易站' in desc:
-                        count = _count_faction_in_set('叙拉古', trade_ops, data)
-                        if count > 0:
-                            em = re.search(r'\+(\d+)%', desc)
-                            if em: conds.append('叙拉古{}人→+{}%'.format(count, int(em.group(1))*count))
-
-                    # 条件性: 老友相聚 (黑钢在制造站)
-                    if '黑钢' in desc and '制造站' in desc:
-                        count = _count_faction_in_set('黑钢国际', mfg_ops, data)
-                        if count > 0:
-                            em = re.search(r'\+(\d+)%', desc)
-                            if em: conds.append('黑钢{}人→+{}%'.format(count, int(em.group(1))*count))
-
-                    # 条件性: 烛骑士微光 (骑士在制造站)
-                    if '骑士' in desc and '制造站' in desc and '生产力' in desc:
-                        count = _count_faction_in_set('骑士', mfg_ops, data)
-                        if count > 0:
-                            em = re.search(r'\+(\d+)%', desc)
-                            if em: conds.append('骑士{}人→+{}%'.format(count, int(em.group(1))*count))
-
-                    # 商业版图: 谢拉格≥3在贸易站
-                    if '谢拉格' in desc and '贸易站' in desc and '3' in desc:
-                        count = _count_faction_in_set('谢拉格', trade_ops, data)
-                        if count >= 3:
-                            em = re.search(r'\+(\d+)%', desc)
-                            if em: conds.append('谢拉格≥3→+{}%'.format(int(em.group(1))))
-
-                    score = t + m + g + len(inter) * 50
-                    best_score = best_t + best_m + best_g + len(best_inter) * 50
-                    if score > best_score:
-                        best_t, best_m, best_g, best_name, best_conds, best_inter = t, m, g, name, conds, inter
-
+                    for ip in ['人间烟火','热情值','感知信息','木天蓼','乌萨斯特饮','情报储备']:
+                        if ip in desc: inter.append(ip)
+                    if t + m + g + len(inter) * 50 > best_score:
+                        best_score = t + m + g + len(inter) * 50
+                        best_t, best_m, best_g, best_name, best_inter = t, m, g, name, inter
                 if best_name:
                     trade_bonus = max(trade_bonus, best_t)
                     mfg_bonus = max(mfg_bonus, best_m)
                     gold_bonus = max(gold_bonus, best_g)
-                    cond_bonuses.extend(best_conds)
                     intermediates.extend(best_inter)
-                    tags = []
-                    if best_t > 0: tags.append('贸+{}%'.format(int(best_t)))
-                    if best_m > 0: tags.append('制+{}%'.format(int(best_m)))
-                    if best_g > 0: tags.append('金+{}%'.format(best_g))
-                    if best_inter: tags.append('产:{}'.format(','.join(best_inter)))
-                    if best_conds: tags.extend(best_conds)
-                    details.append('S{}:{} ({})'.format(slot['slotIndex'], best_name, ', '.join(tags)))
-
-            if details:
+                    ts = []
+                    if best_t > 0: ts.append('贸+{}%'.format(int(best_t)))
+                    if best_m > 0: ts.append('制+{}%'.format(int(best_m)))
+                    if best_g > 0: ts.append('金+{}%'.format(best_g))
+                    if best_inter: ts.append('产:' + ','.join(best_inter))
+                    details.append('S{}:{} ({})'.format(slot['slotIndex'], best_name, ', '.join(ts)))
+            if trade_bonus > 0 or mfg_bonus > 0 or gold_bonus > 0 or intermediates:
                 candidates.append({
                     'charId': cid, 'elite': elite,
                     'trade_bonus': trade_bonus, 'mfg_bonus': mfg_bonus,
-                    'gold_bonus': gold_bonus, 'cond_bonuses': cond_bonuses,
-                    'intermediates': intermediates,
+                    'gold_bonus': gold_bonus,
+                    'intermediates': list(set(intermediates)),
                     'details': ' | '.join(details),
                 })
 
-    # 去重: 每干员最优精英 (加入中间产物价值)
+    import re as _re
     best_op = {}
     for c in candidates:
         k = c['charId']
-        # 中间产物价值估算
-        inter_score = len(c.get('intermediates', [])) * 150  # 产品价值(人间烟火=+15%贸易远超+7%)
-        s = c['trade_bonus'] * 100 + c['mfg_bonus'] * 10 + c['gold_bonus'] * 5 + inter_score
+        s = c['trade_bonus'] * 100 + c['mfg_bonus'] * 10 + c['gold_bonus'] * 5 + len(c.get('intermediates', [])) * 150
         if k not in best_op or s > best_op[k][0]:
             best_op[k] = (s, c)
     operators = sorted(best_op.values(), key=lambda x: -x[0])
 
-    # 选5人 (同种取最高: 冗余buff不叠加, 产品价值可累加)
     from itertools import combinations
-    best_set = None
-    best_val = 0
-    for quint in combinations(operators, 5):  # 全量枚举 (~20选5 = 2万组合)
-        ops_list = [o[1] for o in quint]
-        t = max(op['trade_bonus'] for op in ops_list)  # 贸易: 取最高
-        m = max(op['mfg_bonus'] for op in ops_list)     # 制造: 取最高
-        g = max(op['gold_bonus'] for op in ops_list)    # 贵金属: 取最高
-        # 中间产物: 所有人生成量累加
-        all_inter = set()
-        for op in ops_list:
-            for ip in op.get('intermediates', []):
-                all_inter.add(ip)
-        inter_val = len(all_inter) * 150  # 每种产品价值150
-        val = t * 100 + m * 10 + g * 5 + inter_val
-        if val > best_val:
-            best_val = val
-            best_set = ops_list
+    best_set = None; best_val = 0
+    for quint in combinations([o[1] for o in operators], 5):
+        ol = list(quint)
+        t = max(o['trade_bonus'] for o in ol)
+        m = max(o['mfg_bonus'] for o in ol)
+        g = max(o['gold_bonus'] for o in ol)
+        ai = set()
+        for o in ol:
+            for ip in o.get('intermediates', []): ai.add(ip)
+        v = t * 100 + m * 10 + g * 5 + len(ai) * 150
+        if v > best_val:
+            best_val = v; best_set = ol
 
     if best_set:
         world.control_buffs = {
-            'trade_efficiency': max(op['trade_bonus'] for op in best_set),
-            'mfg_productivity': max(op['mfg_bonus'] for op in best_set),
-            'gold_productivity': max(op['gold_bonus'] for op in best_set),
-            'cond_bonuses': [c for op in best_set for c in op.get('cond_bonuses', [])],
+            'trade_efficiency': max(o['trade_bonus'] for o in best_set),
+            'mfg_productivity': max(o['mfg_bonus'] for o in best_set),
+            'gold_productivity': max(o['gold_bonus'] for o in best_set),
             'best_5': [{'name': cn_name(op['charId'], data), 'elite': op['elite'], 'details': op['details']} for op in best_set],
         }
 
     return world
-
 
 def _has_faction_in_set(faction, char_ids, data):
     """检查集合中是否有指定派系干员 (简化: 用名字关键词)"""
