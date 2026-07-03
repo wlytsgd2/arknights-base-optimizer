@@ -75,49 +75,63 @@ def layer0_baseline(data):
     world = WorldState()
     baseline = {}
 
-    # --- 制造站 gold ×2 ---
-    results, ops, _ = solve('MANUFACTURE', 'gold', HOURS)
+    # --- 先跑 exp + 贸易, 收集used集用于派系统计 ---
+    # 制造站 combat_record ×2
+    results_e, ops_e, _ = solve('MANUFACTURE', 'combat_record', HOURS)
     used = set()
-    stations = []
+    exp_stations = []
     for _ in range(2):
-        remaining = [op for op in ops if op['charId'] not in used]
+        remaining = [op for op in ops_e if op['charId'] not in used]
         best = None
         for trio in combinations(remaining, 3):
             t, _ = resolve_trio(trio, data['all_facility_skills'])
             if best is None or t > best['total']:
                 best = {'total': t, 'ops': trio}
         if best:
-            stations.append(best)
+            exp_stations.append(best)
             used.update(op['charId'] for op in best['ops'])
-    baseline['gold'] = stations
 
-    # --- 制造站 combat_record ×2 ---
-    results, ops, _ = solve('MANUFACTURE', 'combat_record', HOURS)
-    stations = []
-    for _ in range(2):
-        remaining = [op for op in ops if op['charId'] not in used]
-        best = None
-        for trio in combinations(remaining, 3):
-            t, _ = resolve_trio(trio, data['all_facility_skills'])
-            if best is None or t > best['total']:
-                best = {'total': t, 'ops': trio}
-        if best:
-            stations.append(best)
-            used.update(op['charId'] for op in best['ops'])
-    baseline['exp'] = stations
-
-    # --- 贸易站 ×2 ---
+    # 贸易站 ×2
     from trading_solver import solve_trading_standalone
-    gold_lines = 2  # 两个赤金站
+    gold_lines = 2
     tr_results, tr_ops = solve_trading_standalone(data, exclude=used, gold_lines=gold_lines)
-    stations = []
+    trade_stations = []
     for r in tr_results:
         trio_used = any(op['charId'] in used for op in r['ops'])
         if trio_used: continue
-        stations.append(r)
+        trade_stations.append(r)
         used.update(op['charId'] for op in r['ops'])
-        if len(stations) >= 2: break
-    baseline['trading'] = stations
+        if len(trade_stations) >= 2: break
+
+    # 派系统计 (从 exp + 贸易的已用干员中)
+    all_assigned = used.copy()
+    faction_counts = {
+        '莱茵生命': _count_faction('莱茵生命', all_assigned, data),
+        '黑钢国际': _count_faction('黑钢国际', all_assigned, data),
+    }
+
+    # --- 制造站 gold ×2 (带派系加成) ---
+    results, ops, _ = solve('MANUFACTURE', 'gold', HOURS)
+    ops = _apply_faction_bonus(ops, faction_counts)
+    gold_used = set()
+    gold_stations = []
+    for _ in range(2):
+        remaining = [op for op in ops if op['charId'] not in gold_used]
+        best = None
+        for trio in combinations(remaining, 3):
+            t, _ = resolve_trio(trio, data['all_facility_skills'])
+            t += sum(op.get('_faction_bonus', 0) for op in trio)
+            if best is None or t > best['total']:
+                best = {'total': t, 'ops': trio}
+        if best:
+            gold_stations.append(best)
+            gold_used.update(op['charId'] for op in best['ops'])
+
+    baseline['gold'] = gold_stations
+    baseline['exp'] = exp_stations
+    baseline['trading'] = trade_stations
+    used = all_assigned | gold_used
+    world.snapshot['faction_counts'] = faction_counts
 
     world.baseline = baseline
     return world
@@ -142,6 +156,22 @@ def _score_trading_trio(trio):
 # ============================================================
 # 层1: 快照提取
 # ============================================================
+
+# 硬编码派系成员 (可从 building_data.json 扩展)
+FACTIONS = {
+    '莱茵生命': ['多萝西', '娜斯提', '星源', '溯光星源', '白面鸮', '赫默', '淬羽赫默', '缪尔赛思', '伊芙利特', '梅尔', '麦哲伦', '塞雷娅', '小火龙'],
+    '黑钢国际': ['雷蛇', '芙兰卡', '杰西卡', '香草', '杏仁', '寻澜', '涤火杰西卡'],
+}
+def _count_faction(faction, all_ops_set, data):
+    """统计所有已分配干员中某派系的人数"""
+    names = FACTIONS.get(faction, [])
+    count = 0
+    for cid in all_ops_set:
+        n = cn_name(cid, data)
+        if any(fn in n for fn in names):
+            count += 1
+    return count
+
 
 def layer1_snapshot(world, data):
     """
@@ -343,6 +373,20 @@ def _count_faction_in_set(faction, char_ids, data):
 def _extract_pct(s):
     m = re.search(r'(\d+)%', s)
     return float(m.group(1)) if m else 0
+
+def _apply_faction_bonus(ops, faction_counts):
+    """给制造站候选人加派系加成 (通过检查技能名)"""
+    # 造高昂 #26: 娜斯提 E2 — 每莱茵生命+3% (≤5)
+    # 挑大梁 #28: 杏仁 E2 — 每黑钢国际+2% (≤3)
+    for op in ops:
+        bonus = 0
+        details = op.get('details', '')
+        if '造高昂' in details:
+            bonus += min(faction_counts.get('莱茵生命', 0), 5) * 3
+        if '挑大梁' in details:
+            bonus += min(faction_counts.get('黑钢国际', 0), 3) * 2
+        op['_faction_bonus'] = bonus
+    return ops
 
 
 # ============================================================
