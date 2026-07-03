@@ -406,9 +406,12 @@ def layer4c_apply_consumption(world, data):
     # 制造站修正 (注入到 control_buffs)
     mfg_extra = 0.0
     mfg_extra += im.get('renjian_yanhuo', 0) / 3.0 * 1.0    # 稻禾厚: 3点→+1%
-    mfg_extra += im.get('ganzhi_xinxi', 0) / 2.0 * 1.0      # 念力: 2点→+1%
+    mfg_extra += im.get('ganzhi_xinxi', 0) / 2.0 * 1.0      # 念力: 2点→+1% (via 思维链环)
     mfg_extra += im.get('mutianliao', 0) * 1.0              # 可靠随从: 1点→+1%
-    # 热情值在 layer2 已处理(丰富工作经验), 乌萨斯特饮→仓库(不影响产能)
+    # 巫术结晶链: 人间烟火→古老巫术(5→1)→问枯荣(1→2%)+逐水草(1→1%)
+    wushu = im.get('renjian_yanhuo', 0) // 5                  # 巫术结晶数量
+    mfg_extra += wushu * 2.0                                 # 问枯荣: 1结晶→+2%
+    mfg_extra += wushu * 1.0                                 # 逐水草: 1结晶→+1%
 
     # 贸易站修正
     trade_extra = 0.0
