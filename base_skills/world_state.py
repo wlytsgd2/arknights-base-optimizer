@@ -289,7 +289,7 @@ def layer2_control(world, data):
                             em = re.search(r'\+(\d+)%', desc)
                             if em: conds.append('谢拉格≥3→+{}%'.format(int(em.group(1))))
 
-                    score = t + m + g + len(inter) * 50 + sum(_extract_pct(str(c)) for c in conds)
+                    score = t + m + g + len(inter) * 50
                     best_score = best_t + best_m + best_g + len(best_inter) * 50
                     if score > best_score:
                         best_t, best_m, best_g, best_name, best_conds, best_inter = t, m, g, name, conds, inter
@@ -332,7 +332,7 @@ def layer2_control(world, data):
     from itertools import combinations
     best_set = None
     best_val = 0
-    for quint in combinations(operators[:min(30, len(operators))], 5):
+    for quint in combinations(operators, 5):  # 全量枚举 (~20选5 = 2万组合)
         ops_list = [o[1] for o in quint]
         t = max(op['trade_bonus'] for op in ops_list)  # 贸易: 取最高
         m = max(op['mfg_bonus'] for op in ops_list)     # 制造: 取最高
