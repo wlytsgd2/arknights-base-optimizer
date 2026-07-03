@@ -173,12 +173,168 @@ def layer1_snapshot(world, data):
 # ============================================================
 
 def layer2_control(world, data):
-    """根据快照计算中枢最优5人 (待实现)"""
-    world.control_buffs = {
-        'trade_efficiency': 0,
-        'mfg_productivity': 0,
-    }
+    """根据下游排班快照, 计算每个中枢干员的实际buff值, 选最优5人"""
+    buffs = data['all_facility_skills']['buffs']
+    ops_raw = data['all_facility_skills']['operators']
+    snap = world.snapshot
+
+    mfg_ops = snap['operators_in_mfg']  # 制造站干员 charId 集合
+    trade_ops = snap['operators_in_trade']  # 贸易站干员集合
+
+    # 评估每个中枢干员
+    candidates = []
+    for cid, info in ops_raw.items():
+        for elite in [0, 1, 2]:
+            trade_bonus = 0.0   # 贸易全局效率 (同种取最高)
+            mfg_bonus = 0.0     # 制造全局生产力 (同种取最高)
+            gold_bonus = 0.0    # 贵金属制造站生产力
+            cond_bonuses = []   # 条件性加成 (每个单独生效)
+            details = []
+
+            for slot in info.get('slots', []):
+                best_t = 0; best_m = 0; best_g = 0; best_name = ''
+                best_conds = []
+                for sk in slot['skills']:
+                    if sk['elite'] > elite: continue
+                    b = buffs.get(sk['buffId'], {})
+                    if b.get('roomType', '') != 'CONTROL': continue
+                    desc = re.sub(r'<[^>]+>', '', b.get('description', ''))
+                    name = b.get('name', '')
+
+                    t = 0; m = 0; g = 0; conds = []
+
+                    # 贸易全局效率
+                    if '所有贸易站' in desc and '订单效率' in desc:
+                        tm = re.search(r'\+(\d+)%', desc)
+                        if tm: t = float(tm.group(1))
+
+                    # 制造全局生产力
+                    if '制造站' in desc and '生产力' in desc and '红松' not in name:
+                        if '贵金属' in desc:
+                            pm = re.search(r'\+(\d+\.?\d*)%', desc)
+                            if pm: g = float(pm.group(1))
+                        elif '龙门近卫局' in desc:
+                            # 共事情谊: 需龙门近卫局在制造站
+                            if _has_faction_in_set('龙门近卫局', mfg_ops, data):
+                                pm = re.search(r'\+(\d+)%', desc)
+                                if pm: m = float(pm.group(1))
+                        else:
+                            pm = re.search(r'\+(\d+)%', desc)
+                            if pm: m = float(pm.group(1))
+
+                    # 条件性: 家族认可 (叙拉古在贸易站)
+                    if '叙拉古' in desc and '贸易站' in desc:
+                        count = _count_faction_in_set('叙拉古', trade_ops, data)
+                        if count > 0:
+                            em = re.search(r'\+(\d+)%', desc)
+                            if em: conds.append('叙拉古{}人→+{}%'.format(count, int(em.group(1))*count))
+
+                    # 条件性: 老友相聚 (黑钢在制造站)
+                    if '黑钢' in desc and '制造站' in desc:
+                        count = _count_faction_in_set('黑钢国际', mfg_ops, data)
+                        if count > 0:
+                            em = re.search(r'\+(\d+)%', desc)
+                            if em: conds.append('黑钢{}人→+{}%'.format(count, int(em.group(1))*count))
+
+                    # 条件性: 烛骑士微光 (骑士在制造站)
+                    if '骑士' in desc and '制造站' in desc and '生产力' in desc:
+                        count = _count_faction_in_set('骑士', mfg_ops, data)
+                        if count > 0:
+                            em = re.search(r'\+(\d+)%', desc)
+                            if em: conds.append('骑士{}人→+{}%'.format(count, int(em.group(1))*count))
+
+                    # 商业版图: 谢拉格≥3在贸易站
+                    if '谢拉格' in desc and '贸易站' in desc and '3' in desc:
+                        count = _count_faction_in_set('谢拉格', trade_ops, data)
+                        if count >= 3:
+                            em = re.search(r'\+(\d+)%', desc)
+                            if em: conds.append('谢拉格≥3→+{}%'.format(int(em.group(1))))
+
+                    score = t + m + g + sum(_extract_pct(str(c)) for c in conds)
+                    best_score = best_t + best_m + best_g
+                    if score > best_score:
+                        best_t, best_m, best_g, best_name, best_conds = t, m, g, name, conds
+
+                if best_name:
+                    trade_bonus = max(trade_bonus, best_t)
+                    mfg_bonus = max(mfg_bonus, best_m)
+                    gold_bonus = max(gold_bonus, best_g)
+                    cond_bonuses.extend(best_conds)
+                    tags = []
+                    if best_t > 0: tags.append('贸+{}%'.format(int(best_t)))
+                    if best_m > 0: tags.append('制+{}%'.format(int(best_m)))
+                    if best_g > 0: tags.append('金+{}%'.format(best_g))
+                    if best_conds: tags.extend(best_conds)
+                    details.append('S{}:{} ({})'.format(slot['slotIndex'], best_name, ', '.join(tags)))
+
+            if details:
+                candidates.append({
+                    'charId': cid, 'elite': elite,
+                    'trade_bonus': trade_bonus, 'mfg_bonus': mfg_bonus,
+                    'gold_bonus': gold_bonus, 'cond_bonuses': cond_bonuses,
+                    'details': ' | '.join(details),
+                })
+
+    # 去重: 每干员最优精英
+    best_op = {}
+    for c in candidates:
+        k = c['charId']
+        s = c['trade_bonus'] * 100 + c['mfg_bonus'] * 10 + c['gold_bonus'] * 5
+        if k not in best_op or s > best_op[k][0]:
+            best_op[k] = (s, c)
+    operators = sorted(best_op.values(), key=lambda x: -x[0])
+
+    # 选5人 (同种取最高, 覆盖贸易+制造+贵金属)
+    from itertools import combinations
+    best_set = None
+    best_val = 0
+    for quint in combinations(operators[:min(12, len(operators))], 5):
+        ops_list = [o[1] for o in quint]
+        t = max(op['trade_bonus'] for op in ops_list)
+        m = max(op['mfg_bonus'] for op in ops_list)
+        g = max(op['gold_bonus'] for op in ops_list)
+        val = t * 100 + m * 10 + g * 5
+        if val > best_val:
+            best_val = val
+            best_set = ops_list
+
+    if best_set:
+        world.control_buffs = {
+            'trade_efficiency': max(op['trade_bonus'] for op in best_set),
+            'mfg_productivity': max(op['mfg_bonus'] for op in best_set),
+            'gold_productivity': max(op['gold_bonus'] for op in best_set),
+            'cond_bonuses': [c for op in best_set for c in op.get('cond_bonuses', [])],
+            'best_5': [{'name': cn_name(op['charId'], data), 'elite': op['elite'], 'details': op['details']} for op in best_set],
+        }
+
     return world
+
+
+def _has_faction_in_set(faction, char_ids, data):
+    """检查集合中是否有指定派系干员 (简化: 用名字关键词)"""
+    return _count_faction_in_set(faction, char_ids, data) > 0
+
+def _count_faction_in_set(faction, char_ids, data):
+    """统计集合中指定派系干员数 (简化: 查表)"""
+    # 硬编码已知派系成员 (后续可改为查 building_data.json)
+    FACTION_MAP = {
+        '龙门近卫局': ['陈', '星熊', '诗怀雅'],
+        '叙拉古': ['拉普兰德', '德克萨斯', '德克萨斯(?)'],
+        '黑钢国际': ['雷蛇', '芙兰卡', '杰西卡', '香草'],
+        '骑士': ['耀骑士临光', '临光', '瑕光', '鞭刃', '焰尾', '远牙', '灰毫', '野鬃', '薇薇安娜'],
+        '谢拉格': ['银灰', '灵知', '初雪', '崖心', '角峰', '讯使', '耶拉', '极光', '锏'],
+    }
+    faction_names = FACTION_MAP.get(faction, [])
+    count = 0
+    for cid in char_ids:
+        name = cn_name(cid, data)
+        if any(fn in name for fn in faction_names):
+            count += 1
+    return count
+
+def _extract_pct(s):
+    m = re.search(r'(\d+)%', s)
+    return float(m.group(1)) if m else 0
 
 
 # ============================================================
@@ -211,5 +367,12 @@ if __name__ == '__main__':
             print('  {}: {}'.format(k, v))
 
     print()
-    print('=== 层2: 中枢 (待实现) ===')
-    print(world.control_buffs)
+    print('=== 层2: 中枢最优5人 ===')
+    cb = world.control_buffs
+    print('  贸易全局: +{}%'.format(cb.get('trade_efficiency', 0)))
+    print('  制造全局: +{}%'.format(cb.get('mfg_productivity', 0)))
+    print('  贵金属制造: +{}%'.format(cb.get('gold_productivity', 0)))
+    print('  条件加成: {}'.format(cb.get('cond_bonuses', [])))
+    print('  最优5人:')
+    for op in cb.get('best_5', []):
+        print('    {}(E{}) [{}]'.format(op['name'], op['elite'], op['details']))
