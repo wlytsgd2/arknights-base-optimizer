@@ -233,8 +233,11 @@ def _parse_trading_skill(sk, elite, buffs):
     buff = buffs.get(sk['buffId'], {})
     desc = re.sub(r'<[^>]+>', '', buff.get('description', sk.get('description', '')))
     name = buff.get('name', sk['buffName'])
-    skip_kw = ['品质', '违约', '特别订单', '独家', '人间烟火', '感知信息', '木天蓼', '魔物料理', '思维链环', '工程机器人']
-    if any(kw in desc for kw in skip_kw): return 0, 0, None, '', False
+    skip_kw = ['品质', '违约', '独家', '人间烟火', '感知信息', '木天蓼', '魔物料理', '思维链环', '工程机器人']
+    # 特殊处理: 特别订单(+10%效率) 和 天真的谈判者(+10%效率) 虽然有违约关键词但只取效率部分
+    if any(kw in desc for kw in skip_kw):
+        if name not in ['特别订单', '天真的谈判者']:
+            return 0, 0, None, '', False
     eff = 0; lim = 0
     m = re.search(r'订单获取效率([+-]\d+)%', desc)
     if m: eff = int(m.group(1))
