@@ -322,22 +322,28 @@ def layer2_control(world, data):
     for c in candidates:
         k = c['charId']
         # 中间产物价值估算
-        inter_score = len(c.get('intermediates', [])) * 50  # 产品价值(下游转化)
+        inter_score = len(c.get('intermediates', [])) * 150  # 产品价值(人间烟火=+15%贸易远超+7%)
         s = c['trade_bonus'] * 100 + c['mfg_bonus'] * 10 + c['gold_bonus'] * 5 + inter_score
         if k not in best_op or s > best_op[k][0]:
             best_op[k] = (s, c)
     operators = sorted(best_op.values(), key=lambda x: -x[0])
 
-    # 选5人 (同种取最高, 覆盖贸易+制造+贵金属)
+    # 选5人 (同种取最高: 冗余buff不叠加, 产品价值可累加)
     from itertools import combinations
     best_set = None
     best_val = 0
-    for quint in combinations(operators[:min(20, len(operators))], 5):
+    for quint in combinations(operators[:min(30, len(operators))], 5):
         ops_list = [o[1] for o in quint]
-        t = max(op['trade_bonus'] for op in ops_list)
-        m = max(op['mfg_bonus'] for op in ops_list)
-        g = max(op['gold_bonus'] for op in ops_list)
-        val = t * 100 + m * 10 + g * 5
+        t = max(op['trade_bonus'] for op in ops_list)  # 贸易: 取最高
+        m = max(op['mfg_bonus'] for op in ops_list)     # 制造: 取最高
+        g = max(op['gold_bonus'] for op in ops_list)    # 贵金属: 取最高
+        # 中间产物: 所有人生成量累加
+        all_inter = set()
+        for op in ops_list:
+            for ip in op.get('intermediates', []):
+                all_inter.add(ip)
+        inter_val = len(all_inter) * 150  # 每种产品价值150
+        val = t * 100 + m * 10 + g * 5 + inter_val
         if val > best_val:
             best_val = val
             best_set = ops_list
@@ -514,14 +520,23 @@ def run_pipeline(max_iter=3):
     for iteration in range(max_iter):
         world = layer2_control(world, data)
         world, changed = layer3_inject(world, data)
+        # 层4c: 计算产品价值
+        world = layer4c_compute_products(world, data)
+        im = world.intermediates
+        # 将产品价值反馈到下游
+        added_trade = im.get('renjian_yanhuo', 0) * 1.0
+        added_mfg = im.get('reqingzhi', 0) // 20 * 0.5
+        # 重新注入 (包含产品来源的额外buff)
+        if added_trade > 0 or added_mfg > 0:
+            cb = world.control_buffs
+            cb['trade_efficiency'] += added_trade
+            cb['mfg_productivity'] += added_mfg
+            world, _ = layer3_inject(world, data)
         if not changed:
-            print('  迭代{}: 收敛 (排名未变)'.format(iteration + 1))
+            print('  迭代{}: 收敛'.format(iteration + 1))
             break
-        print('  迭代{}: 排名变化, 重新提取快照...'.format(iteration + 1))
+        print('  迭代{}: 更新'.format(iteration + 1))
         world = layer1_snapshot(world, data)
-
-    # 层4c: 中间产物
-    world = layer4c_compute_products(world, data)
 
     world.final = _build_final(world)
     return world
